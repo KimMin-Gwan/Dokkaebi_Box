@@ -19,5 +19,5 @@ class clsInformation:
     def setQRcodeData(self, data):
         self.QRcodeData = data
 
-    def getQRcodeData(self, data):
+    def getQRcodeData(self):
         return self.QRcodeData
