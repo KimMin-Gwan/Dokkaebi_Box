@@ -13,7 +13,7 @@
 import RPi.GPIO as GPIO
 import time
 
-from ServoMotor import *
+from ServoMotor.ServoConstant import *
 
 
 class clsServoMotor:
