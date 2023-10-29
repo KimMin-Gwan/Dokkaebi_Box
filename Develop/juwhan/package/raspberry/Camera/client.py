@@ -4,7 +4,7 @@ from picamera2 import Picamera2
 import cv2
 import time
 from PIL import Image
-from Camera.constant import *
+from constant import *
 
 
 
@@ -91,4 +91,4 @@ class Client:
                 
 if __name__=="__main__":
     cli=Client()
-    cli.capture_image()
+    cli.run_Camera()
