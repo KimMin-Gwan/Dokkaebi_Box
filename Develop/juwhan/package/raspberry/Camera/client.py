@@ -87,7 +87,7 @@ class Client:
     def run_Camera(self):
         while True:
             chk=input("문을 닫아주십이오: (1 test)")
-            if chk==1:
+            if chk=="1":
                 self.capture_image()
                 self.open_image()
                 self.send_image()
