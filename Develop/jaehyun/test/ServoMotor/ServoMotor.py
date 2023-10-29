@@ -41,10 +41,10 @@ class ServoMotor:
 
 
 
-#def main():
-#    servo = ServoMotor(SERVO_DEFAULT_PIN)
-#    while True:
-#        servo.setDegree(0, 1) # 0도
-#        servo.setDegree(90, 1)  # 90도
-#if __name__ == "__main__":
-#    main()
+def main():
+    servo = ServoMotor(SERVO_DEFAULT_PIN)
+    while True:
+        servo.setDegree(0, 1) # 0도
+        servo.setDegree(90, 1)  # 90도
+if __name__ == "__main__":
+    main()
