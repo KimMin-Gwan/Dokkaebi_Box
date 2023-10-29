@@ -1,7 +1,7 @@
-from View import *
+from package.Model import *
 
 def main():
-    test = main_test()
+    test = testClass()
 
 
 if __name__ == "__main__":
