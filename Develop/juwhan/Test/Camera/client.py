@@ -43,6 +43,8 @@ with open('output.jpg', 'rb') as output_file:
 
 
 MAX_SEND_BYTES=5500
+
+
 send_bytes=0
 left_bytes=len(image_bytes)
 while send_bytes<len(image_bytes):
@@ -54,6 +56,9 @@ while send_bytes<len(image_bytes):
     #print(image_bytes[send_bytes:MAX_SEND_BYTES+send_bytes]) 
 
 socket.sendto("end".encode(),(UDP_IP,UDP_PORT))
+
+
+
 
 # for i in range(20):
 

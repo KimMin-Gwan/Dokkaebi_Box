@@ -74,11 +74,12 @@ class Client:
     def send_image(self):
         send_bytes=0
         left_bytes=len(self.image_bytes)
-        print(left_bytes)
+        #print(left_bytes)
         
         while send_bytes<len(self.image_bytes):
             now_send_bytes=min(MAX_SEND_BYTES,left_bytes)
             self.socket.sendto(self.image_bytes[send_bytes:MAX_SEND_BYTES+send_bytes],(UDP_IP,UDP_PORT))
+            time.sleep(0.05)
             send_bytes+=now_send_bytes
             left_bytes-=now_send_bytes
             print(self.image_bytes[send_bytes:MAX_SEND_BYTES+send_bytes])
