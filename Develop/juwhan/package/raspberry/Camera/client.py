@@ -91,4 +91,4 @@ class Client:
                 
 if __name__=="__main__":
     cli=Client()
-    cli.capture_image()
+    cli.run_Camera()
