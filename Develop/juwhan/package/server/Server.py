@@ -29,8 +29,8 @@ class Server:
         while True:
             self.picture=b''
             while True:
-                data,addr=self.socket.recvfrom(5500)
-                if data == b'end':
+                data,addr=self.socket.recvfrom(MAX_SEND_BYTES)
+                if data == END_FLAG:
                     break 
                 self.picture+=data
             self.save_picture()
