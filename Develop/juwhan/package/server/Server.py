@@ -29,6 +29,7 @@ class Server:
         while True:
             self.picture=b''
             while True:
+                print("1")
                 data,addr=self.socket.recvfrom(MAX_SEND_BYTES)
                 if data == END_FLAG:
                     break 
