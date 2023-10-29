@@ -20,8 +20,10 @@ class Server:
         
         image_stram=io.BytesIO(self.picture)
         image=Image.open(image_stram)
-        image.show()
-        image.save(self.path+self.img_num+".jpg")
+        #image.show()
+        save_path=f"{SAVE_IMAGE_PATH}{self.img_num}.jpg"
+        #print(save_path)
+        image.save(save_path)
         self.img_num+=1
 
 
@@ -29,7 +31,6 @@ class Server:
         while True:
             self.picture=b''
             while True:
-                print("1")
                 data,addr=self.socket.recvfrom(MAX_SEND_BYTES)
                 if data == END_FLAG:
                     break 
