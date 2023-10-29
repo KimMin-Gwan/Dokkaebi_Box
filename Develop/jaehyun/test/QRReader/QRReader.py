@@ -54,17 +54,18 @@ while True:
 
     ### Let’s proceed to loop over the detected barcodes
     # loop over the detected barcodes
-    barcode = barcodes[0]
-    (x, y, w, h) = barcode.rect
-    cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 0, 255), 2)
-    barcodeData = barcode.data.decode("utf-8")
-    barcodeType = barcode.type
-    text = "{} ({})".format(barcodeData, barcodeType)
-    cv2.putText(frame, text, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
-    if barcodeData not in found:
-        csv.write("{},{}\n".format(datetime.datetime.now(), barcodeData))
-        csv.flush()
-        found.add(barcodeData)
+    if len(barcodes) != 0:
+        barcode = barcodes[0]
+        (x, y, w, h) = barcode.rect
+        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 0, 255), 2)
+        barcodeData = barcode.data.decode("utf-8")
+        barcodeType = barcode.type
+        text = "{} ({})".format(barcodeData, barcodeType)
+        cv2.putText(frame, text, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+        if barcodeData not in found:
+            csv.write("{},{}\n".format(datetime.datetime.now(), barcodeData))
+            csv.flush()
+            found.add(barcodeData)
     # for barcode in barcodes:
     #     # extract the bounding box location of the barcode and draw
     #     # the bounding box surrounding the barcode on the image
