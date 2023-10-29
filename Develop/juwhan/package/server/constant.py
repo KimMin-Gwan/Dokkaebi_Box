@@ -1,0 +1,3 @@
+SAVE_IMAGE_PATH="C:\\Users\\antl\\Desktop\\IOT한강\\image"
+UDP_IP = "165.229.185.195"
+UDP_PORT = 8000
