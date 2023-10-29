@@ -1,3 +1,15 @@
+"""
+* Project : 2023 Seoul AIOT Hackathon
+* Program Purpose and Features :
+* - class ServoMotor constant
+* Author : JH KIM
+* First Write Date : 2023.11.03
+* ==========================================================================
+* Program history
+* ==========================================================================
+* Author    		Date		    Version		History
+* JH KIM            2023.11.03		v1.00		First Write
+"""
 # import the necessary packages
 from imutils.video import VideoStream
 from pyzbar import pyzbar
@@ -15,13 +27,12 @@ args = vars(ap.parse_args())
 
 ### From there, let’s initialize our video stream and open our CSV file:
 # initialize the video stream and allow the camera sensor to warm up
-# 비티오 스트림 초기화 및 카메라 센서가 예열되도록 함
 print("[INFO] starting video stream...")
 
 # vs = VideoStream(src=0).start()
 vs = VideoStream(src=0).start()  # USB 웹캠 카메라 사용시
 # vs = VideoStream(usePiCamera=True).start()     # 파이 카메라 사용시
-time.sleep(2.0)
+time.sleep(1.0)
 
 # open the output CSV file for writing and initialize the set of
 # barcodes found thus far
@@ -40,9 +51,10 @@ while True:
     # find the barcodes in the frame and decode each of the barcodes
     # 프레임에서 바코드를 찾고, 각 바코드들 마다 디코드
     barcodes = pyzbar.decode(frame)
-
+    print(type(barcodes))
     ### Let’s proceed to loop over the detected barcodes
     # loop over the detected barcodes
+
     for barcode in barcodes:
         # extract the bounding box location of the barcode and draw
         # the bounding box surrounding the barcode on the image
@@ -66,8 +78,7 @@ while True:
         # the timestamp + barcode to disk and update the set
         # 현재 바코드 텍스트가 CSV 파일안에 없을경우, timestamp, barcode를 작성하고 업데이트
         if barcodeData not in found:
-            csv.write("{},{}\n".format(datetime.datetime.now(),
-                                       barcodeData))
+            csv.write("{},{}\n".format(datetime.datetime.now(), barcodeData))
             csv.flush()
             found.add(barcodeData)
 
