@@ -15,7 +15,7 @@ import time
 from ServoConstant import *
 
 
-class ServoMotor:
+class clsServoMotor:
     def __init__(self, pin):
         GPIO.setwarnings(False)
         self.pin = pin
@@ -42,7 +42,7 @@ class ServoMotor:
 
 
 def main():
-    servo = ServoMotor(SERVO_DEFAULT_PIN)
+    servo = clsServoMotor(SERVO_DEFAULT_PIN)
     while True:
         servo.setDegree(0, 1) # 0도
         servo.setDegree(90, 1)  # 90도

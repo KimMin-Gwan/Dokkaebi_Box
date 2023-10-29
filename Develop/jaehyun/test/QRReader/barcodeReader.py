@@ -19,29 +19,25 @@ import imutils
 import time
 import cv2
 
-class barcodeReader:
-    def __init__(self):
+class clsBarcodeReader:
+    def __init__(self, info):
+        self.info = info
+
         # construct the argument parser and parse the arguments
         self.ap = argparse.ArgumentParser()
-        self.ap.add_argument("-o", "--output", type=str, default="barcodes.csv",
-                        help="path to output CSV file containing barcodes")
+        self.ap.add_argument("-o", "--output", type=str, default="barcodes.csv", help="path to output CSV file containing barcodes")
         self.args = vars(self.ap.parse_args())
-
         ### From there, let’s initialize our video stream and open our CSV file:
         # initialize the video stream and allow the camera sensor to warm up
         print("[INFO] starting video stream...")
-
-        # vs = VideoStream(src=0).start()
         self.vs = VideoStream(src=0).start()  # USB 웹캠 카메라 사용시
         # vs = VideoStream(usePiCamera=True).start()     # 파이 카메라 사용시
         time.sleep(1.0)
-
         # open the output CSV file for writing and initialize the set of
         # barcodes found thus far
         # 작성을 위해 출력된 CSV 파일을 열고, 지금까지 찾은 바코드 세트 초기화
         self.csv = open(self.args["output"], "w")
         self.found = set()
-
 
     def runQRReader(self):
         ### Let’s begin capturing + processing frames:
@@ -63,6 +59,7 @@ class barcodeReader:
                 (x, y, w, h) = barcode.rect  # QR코드 경계 추출
                 cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 0, 255), 2)  # cv2 bbox 생성
                 barcodeData = barcode.data.decode("utf-8")  # QR data decode
+                self.info.QRcodeData = barcodeData
                 barcodeType = barcode.type  # barcode type(barcode, qrcode)
                 text = "{} ({})".format(barcodeData, barcodeType)
                 cv2.putText(frame, text, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)  # text 출력
@@ -113,6 +110,6 @@ class barcodeReader:
         self.vs.stop()
 
 if __name__ == "__main__":
-    QRReader = barcodeReader()
+    QRReader = clsBarcodeReader()
     QRReader.runQRReader()
 
