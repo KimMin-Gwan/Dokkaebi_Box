@@ -13,7 +13,7 @@
 
 class clsInformation:
     def __init__(self):
-        self.QRcodeData = ""
+        self.QRcodeData = ""    # QRcode data
         self.servoDeg = 0
 
     def setQRcodeData(self, data):

@@ -17,17 +17,19 @@ from QRReader import *
 from ServoMotor import *
 from threading import Thread
 def main():
-    info = clsInformation()
-    bcdReader = clsBarcodeReader(info)
-    svMotor = clsServoMotor(12)
+    info = clsInformation()     # information class instance
+    bcdReader = clsBarcodeReader(info)  # barcodeReader class instance
+    svMotor = clsServoMotor(12)         # servoMortor class instance
 
+    # barcode thread
     bcdReader_thread = Thread(target=bcdReader.runQRReader)
     bcdReader_thread.start()
+    
     while True:
         time.sleep(0.1)
-        if info.getQRcodeData() == "antl":
+        if info.getQRcodeData() == "antl":  # barcode 내용이 antl이면 잠금
             svMotor.setDegree(90,1)
-        elif info.getQRcodeData() == "YU":
+        elif info.getQRcodeData() == "YU":  # barcode 내용이 YU이면 열림
             svMotor.setDegree(0,1)
 
 
