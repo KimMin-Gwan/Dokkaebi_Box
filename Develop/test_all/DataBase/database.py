@@ -13,5 +13,6 @@ class Database:
         self.info=info
 
     def input_data(self,ip_dt):   #ip_dt는 넣을 데이터이다.ip_dt =   
+        print(ip_dt)
         self.collection.insert_one(ip_dt)
     

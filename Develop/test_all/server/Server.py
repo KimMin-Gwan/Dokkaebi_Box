@@ -27,8 +27,6 @@ class Server:
         self.qury_data={}
         self.db=Database(info) 
     def save_picture(self):
-        
-         
         image_stram=io.BytesIO(self.picture)
         image=Image.open(image_stram)
         #image.show()
@@ -56,21 +54,21 @@ class Server:
         data["PWD"]=self.hashcode()
         return data
     
-    def question_data(self):
+    def question_data(self):  #추후 챗봇을 통해 이쪽으로 데이터가 들어올예정이므로 삭제 할 함수
         date=int(input("날짜는 언제인가요?"))
         category=input("카테고리는 무엇인가요?") 
-        location=input("잃어버린 날짜는 어디인가요?")
+        location=input("잃어버린 위치는 어디인가요?")
         time=("찾은 시간은 언제인가요?")
         self.qury_data['date']=date
         self.qury_data['category']=category
         self.qury_data['location']=location
         self.qury_data['time']=time
-        
+       
     def run_server(self):
         while True:
             num=input("1번 find 2번 input") 
             if num=="1":
-                pass
+                self.question_data()
             elif num=="2":
                 self.question_data()  #습득 물품의 기본 정보를 입력받고
                 self.recevie_data()  #사진 정보를 전달받고
