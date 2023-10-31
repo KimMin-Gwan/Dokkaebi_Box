@@ -40,7 +40,8 @@ class Server:
 
     def hashcode(self):
         self.QRPASSORD=random.randrange(1,200000)
-        self.qury_data["PWD"]=str(self.QRPASSORD)
+        self.QRPASSORD=str(self.QRPASSORD)
+        self.qury_data["PWD"]=(self.QRPASSORD)
         
 
     def recevie_data(self):
