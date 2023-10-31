@@ -18,7 +18,7 @@ from magneticConstant import *
 class clsMagneticSensor:
     def __init__(self):
         GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(MAGNETIC_DEFAULT_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(MAGNETIC_DEFAULT_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         self.magneticState = False # False(닫힘)/True(열림)
 
     #def runMagneticSensor(self):
