@@ -9,6 +9,7 @@
 * ==========================================================================
 * Author    		Date		    Version		History
 * JH KIM            2023.11.03		v1.00		First Write
+* JH KIM            2023.11.03		v1.10		Sensor Detect method Polling -> Interupt
 """
 
 import RPi.GPIO as GPIO #import the GPIO library
@@ -32,10 +33,10 @@ class clsMagneticSensor:
 
     def runMagneticSensor(self):
         while True:
-            if GPIO.wait_for_edge(MAGNETIC_DEFAULT_PIN, GPIO.FALLING, bouncetime=200) == 10:
+            if GPIO.wait_for_edge(MAGNETIC_DEFAULT_PIN, GPIO.FALLING, bouncetime=200) == MAGNETIC_DEFAULT_PIN:
                 self.setMagnetic_close()
                 print("SYSTEM MESSAGE::The door closed")
-            if GPIO.wait_for_edge(MAGNETIC_DEFAULT_PIN, GPIO.RISING, bouncetime=200) == 10:
+            if GPIO.wait_for_edge(MAGNETIC_DEFAULT_PIN, GPIO.RISING, bouncetime=200) == MAGNETIC_DEFAULT_PIN:
                 self.setMagnetic_open()
                 print("SYSTEM MESSAGE::The door opened")
 
