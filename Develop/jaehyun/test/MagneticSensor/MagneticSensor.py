@@ -21,7 +21,7 @@ class clsMagneticSensor:
         GPIO.setup(MAGNETIC_DEFAULT_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         self.magneticState = False # False(닫힘)/True(열림)
         GPIO.add_event_detect(MAGNETIC_DEFAULT_PIN, GPIO.FALLING, callback=self.setMagnetic_close, bouncetime=200)
-        GPIO.add_event_detect(MAGNETIC_DEFAULT_PIN, GPIO.RISING, callback=self.setMagnetic_open, bouncetime=200)
+        #GPIO.add_event_detect(MAGNETIC_DEFAULT_PIN, GPIO.RISING, callback=self.setMagnetic_open, bouncetime=200)
 
     #def runMagneticSensor(self):
     #    while True:
