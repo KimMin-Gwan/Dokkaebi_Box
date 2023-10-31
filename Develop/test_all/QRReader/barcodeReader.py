@@ -122,6 +122,7 @@ class clsBarcodeReader:
             return 1
         else:
             return 0
+        qr_data=""
             
 if __name__ == "__main__":
     QRReader = clsBarcodeReader()
