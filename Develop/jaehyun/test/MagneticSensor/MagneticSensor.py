@@ -37,10 +37,12 @@ class clsMagneticSensor:
 
     def runMagneticSensor(self):
         while True:
-            state = GPIO.wait_for_edge(MAGNETIC_DEFAULT_PIN, GPIO.FALLING, bouncetime=200)
-            print("FALLING" + str(state))
-            state = GPIO.wait_for_edge(MAGNETIC_DEFAULT_PIN, GPIO.RISING, bouncetime=200)
-            print("RISING" + str(state))
+            if GPIO.wait_for_edge(MAGNETIC_DEFAULT_PIN, GPIO.FALLING, bouncetime=200) == 8:
+                self.setMagnetic_close()
+                print("SYSTEM MESSAGE::The door closed")
+            if GPIO.wait_for_edge(MAGNETIC_DEFAULT_PIN, GPIO.RISING, bouncetime=200) == 8:
+                self.setMagnetic_open()
+                print("SYSTEM MESSAGE::The door opened")
 
 
 
