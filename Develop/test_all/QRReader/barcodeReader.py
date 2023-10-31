@@ -113,7 +113,14 @@ class clsBarcodeReader:
         qr_data=self.info.getQRcodeData()
         query_data={"PWD":qr_data}
         result=self.db.find_data(query_data)
-        
+        list_result=[]
+        for doc in result:
+            list_result.append(doc)
+        if len(list_result) ==1:
+            return 1
+        else:
+            return 0
+            
 if __name__ == "__main__":
     QRReader = clsBarcodeReader()
     QRReader.runQRReader()
