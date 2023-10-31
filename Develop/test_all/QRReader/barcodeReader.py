@@ -13,6 +13,7 @@
 # import the necessary packages
 from imutils.video import VideoStream
 from pyzbar import pyzbar
+from DataBase import *
 import argparse
 import datetime
 import imutils
@@ -22,7 +23,6 @@ import cv2
 class clsBarcodeReader:
     def __init__(self, info):
         self.info = info
-
         # construct the argument parser and parse the arguments
         self.ap = argparse.ArgumentParser()
         self.ap.add_argument("-o", "--output", type=str, default="barcodes.csv", help="path to output CSV file containing barcodes")
@@ -38,7 +38,7 @@ class clsBarcodeReader:
         # 작성을 위해 출력된 CSV 파일을 열고, 지금까지 찾은 바코드 세트 초기화
         self.csv = open(self.args["output"], "w")
         self.found = set()
-
+        self.db=Database()
     def runQRReader(self):
         ### Let’s begin capturing + processing frames:
         # loop over the frames from the video stream
@@ -108,7 +108,12 @@ class clsBarcodeReader:
         self.csv.close()
         cv2.destroyAllWindows()
         self.vs.stop()
-
+        
+    def Chk_QrCode(self):
+        qr_data=self.info.getQRcodeData()
+        query_data={"PWD":qr_data}
+        result=self.db.find_data(query_data)
+        
 if __name__ == "__main__":
     QRReader = clsBarcodeReader()
     QRReader.runQRReader()

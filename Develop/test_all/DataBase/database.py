@@ -15,4 +15,17 @@ class Database:
     def input_data(self,ip_dt):   #ip_dt는 넣을 데이터이다.ip_dt =   
         print(ip_dt)
         self.collection.insert_one(ip_dt)
-    
+    def find_data(self,fd_dt):
+        print(fd_dt)
+
+        result=self.collection.find(fd_dt) 
+
+        return result
+
+
+def main():
+    db=Database()
+    find_data={"PWD":"123"}
+
+if __name__=="__main__":
+    pass    
