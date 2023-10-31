@@ -28,11 +28,16 @@ def main():
    
     
     while True:
+        # time.sleep(0.1)
+        # if info.getQRcodeData() == "antl":  # barcode 내용이 antl이면 잠금
+        #     svMotor.setDegree(90,1)
+        # elif info.getQRcodeData() == "YU":  # barcode 내용이 YU이면 열림
+        #     svMotor.setDegree(0,1)
+
         time.sleep(0.1)
-        if info.getQRcodeData() == "antl":  # barcode 내용이 antl이면 잠금
+        if bcdReader.Chk_QrCode()==1:
             svMotor.setDegree(90,1)
-        elif info.getQRcodeData() == "YU":  # barcode 내용이 YU이면 열림
-            svMotor.setDegree(0,1)
+        
 
 
 
