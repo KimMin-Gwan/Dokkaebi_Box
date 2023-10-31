@@ -28,3 +28,7 @@ class clsMagneticSensor:
             if GPIO.input(8) == False:
                print("Door is closed")
                time.sleep(1)
+
+if __name__ == "__main__":
+    mag = clsMagneticSensor()
+    mag.runMagneticSensor()
