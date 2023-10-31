@@ -33,12 +33,8 @@ def main():
     database=Database(info)
 
     server_thread=Thread(target=server.run_server)
-    server_thread.start() 
-        
-            
-
-
-
+    server_thread.start()
+    
 
 if __name__ == "__main__":
     main()
