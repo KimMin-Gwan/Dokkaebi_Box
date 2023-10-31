@@ -18,7 +18,7 @@ class clsMagneticSensor:
     def __init__(self):
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(8, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        self.doorState = False # False(닫힘)/True(열림)
+        self.magneticState = False # False(닫힘)/True(열림)
 
     #def runMagneticSensor(self):
     #    while True:
@@ -28,12 +28,16 @@ class clsMagneticSensor:
     #        if GPIO.input(8) == False:
     #           print("Door is closed")
     #           time.sleep(1)
-    def setMagneticState(self, state):
-        self.doorState = state
+    def setMagnetic_open(self):
+        self.magneticState = True
+
+    def setMagnetic_close(self):
+        self.magneticState = False
+
     def runMagneticSensor(self):
         while True:
-            GPIO.add_event_detect(20, GPIO.FALLING, callback=self.setMagneticState(True), bouncetime=200)
-            GPIO.add_event_detect(20, GPIO.RISING, callback=self.setMagneticState(False), bouncetime=200)
+            GPIO.add_event_detect(20, GPIO.FALLING, callback=self.setMagnetic_close, bouncetime=200)
+            GPIO.add_event_detect(20, GPIO.RISING, callback=self.setMagnetic_open, bouncetime=200)
 if __name__ == "__main__":
     mag = clsMagneticSensor()
     mag.runMagneticSensor()
