@@ -13,11 +13,12 @@
 
 import RPi.GPIO as GPIO #import the GPIO library
 import time
+from magneticConstant import *
 
 class clsMagneticSensor:
     def __init__(self):
         GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(8, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(MAGNETIC_DEFAULT_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         self.magneticState = False # False(닫힘)/True(열림)
 
     #def runMagneticSensor(self):
@@ -36,8 +37,8 @@ class clsMagneticSensor:
 
     def runMagneticSensor(self):
         while True:
-            GPIO.add_event_detect(20, GPIO.FALLING, callback=self.setMagnetic_close, bouncetime=200)
-            GPIO.add_event_detect(20, GPIO.RISING, callback=self.setMagnetic_open, bouncetime=200)
+            GPIO.add_event_detect(MAGNETIC_DEFAULT_PIN, GPIO.FALLING, callback=self.setMagnetic_close, bouncetime=200)
+            GPIO.add_event_detect(MAGNETIC_DEFAULT_PIN, GPIO.RISING, callback=self.setMagnetic_open, bouncetime=200)
 if __name__ == "__main__":
     mag = clsMagneticSensor()
     mag.runMagneticSensor()
