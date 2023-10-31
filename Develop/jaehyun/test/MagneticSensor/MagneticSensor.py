@@ -39,7 +39,7 @@ class clsMagneticSensor:
 
     def runMagneticSensor(self):
         while True:
-            print("Hello")
+            print(self.magneticState)
             time.sleep(1)
 
 if __name__ == "__main__":
