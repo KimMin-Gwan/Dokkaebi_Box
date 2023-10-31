@@ -111,12 +111,14 @@ class clsBarcodeReader:
         
     def Chk_QrCode(self):
         qr_data=self.info.getQRcodeData()
-        query_data={"PWD":qr_data}
+        query_data={"PWD":int(qr_data)}
         result=self.db.find_data(query_data)
         list_result=[]
         for doc in result:
             list_result.append(doc)
+        
         if len(list_result) ==1:
+            print(list_result[0])
             return 1
         else:
             return 0
