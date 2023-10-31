@@ -117,12 +117,12 @@ class clsBarcodeReader:
         for doc in result:
             list_result.append(doc)
         
+        qr_data=""
         if len(list_result) ==1:
             print(list_result[0])
             return 1
         else:
             return 0
-        qr_data=""
             
 if __name__ == "__main__":
     QRReader = clsBarcodeReader()
