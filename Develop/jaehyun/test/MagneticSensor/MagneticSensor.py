@@ -9,35 +9,39 @@
 * ==========================================================================
 * Author    		Date		    Version		History
 * JH KIM            2023.11.03		v1.00		First Write
+* JH KIM            2023.11.03		v1.10		Sensor Detect method Polling -> Interupt
 """
 
 import RPi.GPIO as GPIO #import the GPIO library
 import time
+from magneticConstant import *
 
 class clsMagneticSensor:
     def __init__(self):
         GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(8, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        self.magneticState = False # False(닫힘)/True(열림)
+        GPIO.setup(MAGNETIC_DEFAULT_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        self.magneticDoorState = False # False(닫힘)/True(열림)
 
-    #def runMagneticSensor(self):
-    #    while True:
-    #        if GPIO.input(8):
-    #           print("Door is open")
-    #           time.sleep(1)
-    #        if GPIO.input(8) == False:
-    #           print("Door is closed")
-    #           time.sleep(1)
     def setMagnetic_open(self):
-        self.magneticState = True
+        self.magneticDoorState = True
 
     def setMagnetic_close(self):
-        self.magneticState = False
+        self.magneticDoorState = False
+
+    def getMagneticDoorState(self):
+        return
 
     def runMagneticSensor(self):
         while True:
-            GPIO.add_event_detect(20, GPIO.FALLING, callback=self.setMagnetic_close, bouncetime=200)
-            GPIO.add_event_detect(20, GPIO.RISING, callback=self.setMagnetic_open, bouncetime=200)
+            if GPIO.wait_for_edge(MAGNETIC_DEFAULT_PIN, GPIO.FALLING, bouncetime=200) == MAGNETIC_DEFAULT_PIN and self.getMagneticDoorState() == True:
+                self.setMagnetic_close()
+                print("SYSTEM MESSAGE::The door closed")
+            if GPIO.wait_for_edge(MAGNETIC_DEFAULT_PIN, GPIO.RISING, bouncetime=200) == MAGNETIC_DEFAULT_PIN and self.getMagneticDoorState() == False:
+                self.setMagnetic_open()
+                print("SYSTEM MESSAGE::The door opened")
+
+
+
 if __name__ == "__main__":
     mag = clsMagneticSensor()
     mag.runMagneticSensor()

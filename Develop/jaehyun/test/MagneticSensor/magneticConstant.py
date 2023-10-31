@@ -10,4 +10,4 @@
 * Author    		Date		    Version		History
 * JH KIM            2023.11.03		v1.00		First Write
 """
-MAGNETIC_DEFAULT_PIN = 8
+MAGNETIC_DEFAULT_PIN = 10
