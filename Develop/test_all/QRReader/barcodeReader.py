@@ -38,7 +38,7 @@ class clsBarcodeReader:
         # 작성을 위해 출력된 CSV 파일을 열고, 지금까지 찾은 바코드 세트 초기화
         self.csv = open(self.args["output"], "w")
         self.found = set()
-        self.db=Database()
+        self.db=Database(info)
     def runQRReader(self):
         ### Let’s begin capturing + processing frames:
         # loop over the frames from the video stream
