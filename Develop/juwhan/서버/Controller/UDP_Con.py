@@ -52,3 +52,7 @@ class UDP:
         data["path"]=self.get_imge_path()
         data["PWD"]=self.hashcode()
         return data
+    def capture_image(self):
+        self.recevie_data()
+        self.save_picture()
+        
