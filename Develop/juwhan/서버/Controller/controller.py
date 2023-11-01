@@ -13,17 +13,22 @@ class Web_Controller():
 
         manager = Hand_Over()
     def find(self):
+        
         self.chat_bot_find=dokkaebi_ChatBot_Find()
         self.find_data_find=self.chat_bot_find.runChatBot()
         
         find_manager=Find(self.find_data_find)
         print(find_manager.find_data_base())  #최종 데이터 추후 작업은 이어서 예정
-  
-
+        
+        #시나리오 작성 예시 ...... 
+        chk=input("이 데이터가 맞나요?")  
+        if chk=="1":
+            pass
+        else:
+            pass
 
 class Hand_Over():
     def __init__(self):
-        
         pass
 
 
