@@ -14,5 +14,6 @@
 class Dokkaebi_Data:
     def __init__(self):
         self.classification = None
+        self.Date = None
         self.lostTime = None
         self.place = None

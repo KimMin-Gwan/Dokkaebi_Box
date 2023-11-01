@@ -12,10 +12,11 @@
 """
 import pandas as pd
 from ChatBotData import *
-from konlpy import *
+from konlpy.tag import Hannanum
 
-class dokkaebi_ChatBot:
-    def __init__(self):
+class dokkaebi_ChatBot_Find:
+    def __init__(self, data, hannanum):
+        self.hannanum = hannanum
         self.chatbot_data = pd.read_excel("chatbot_data_find.xlsx")
         self.chat_dic = {}
         self.initChatBot()
@@ -57,7 +58,7 @@ class dokkaebi_ChatBot:
                 chatBotResponse = self.chat(userResponse)
                 print('도깨비박스 : ', chatBotResponse)
         elif self.step == 2:
-            print("물건을 언제 잃어버리셨나요?")
+            print("물건을 언제 잃어버리셨나요? ex) 11월 3일 13시 30분")
             while True:
                 userResponse = input('입력 : ')
                 chatBotResponse = self.chat(userResponse)

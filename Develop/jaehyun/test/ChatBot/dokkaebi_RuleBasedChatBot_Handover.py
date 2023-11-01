@@ -13,10 +13,11 @@
 
 import pandas as pd
 from ChatBotData import *
-from konlpy import *
+from konlpy.tag import Hannanum
 
-class dokkaebi_ChatBot:
-    def __init__(self, data):
+class dokkaebi_ChatBot_Handover:
+    def __init__(self, data, hannanum):
+        self.hannanum = hannanum
         self.dokkaebi_data = data
         self.chatbot_data = pd.read_excel("chatbot_data_handover.xlsx")
         self.chat_dic = {}
@@ -50,6 +51,8 @@ class dokkaebi_ChatBot:
             if index > -1:
                 if self.chatbot_data['type'][k] == "classification":
                     self.dokkaebi_data.classification = self.chatbot_data['data'][k]
+                elif self.chatbot_data['type'][k] == "time":
+
                 return self.chatbot_data['response'][k]
         return '무슨 말인지 모르겠어요'
 
@@ -81,5 +84,6 @@ class dokkaebi_ChatBot:
 
 if __name__ == "__main__":
     DokkaebiChatBot_Data=Dokkaebi_Data()
-    chatBot = dokkaebi_ChatBot(DokkaebiChatBot_Data)
+    hannanum = Hannanum()
+    chatBot = dokkaebi_ChatBot(DokkaebiChatBot_Data, hannanum)
     chatBot.runChatBot()
