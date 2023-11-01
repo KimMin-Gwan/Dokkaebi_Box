@@ -12,7 +12,7 @@
 """
 
 import pandas as pd
-from ChatBotData import *
+from ChatBot import *
 from konlpy.tag import Hannanum
 import os
 

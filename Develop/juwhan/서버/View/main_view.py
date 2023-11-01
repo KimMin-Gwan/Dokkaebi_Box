@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException 
 from fastapi.responses import RedirectResponse
-from package import Model
+#from package import Model
 
 class AppServer():
     # 초기화
@@ -32,6 +32,7 @@ class AppServer():
         @self.app.get('/find')
         async def return_data():
             result = self.controller.find()
+            #실제로는 result는 사진 데이터? 가 와야함 
             return result
         
         # 잘못된 진입 처리
@@ -57,7 +58,8 @@ class AppServer():
             False
         
     def bad_result(self):
-
+        pass
+    
 
 
 

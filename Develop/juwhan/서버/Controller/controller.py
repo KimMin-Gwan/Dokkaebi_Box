@@ -1,6 +1,6 @@
 from ChatBot import *
 from Model.DBMS import *
-
+from ChatBot.ChatBotData import *
 class Web_Controller():
     def __init__(self, model):
         self.model = model

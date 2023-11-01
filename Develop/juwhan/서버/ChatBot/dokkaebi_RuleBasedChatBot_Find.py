@@ -11,7 +11,7 @@
 * JH KIM            2023.11.03		v1.00		First Write
 """
 import pandas as pd
-from ChatBotData import *
+from ChatBot import *
 from konlpy.tag import Hannanum
 
 class dokkaebi_ChatBot_Find:

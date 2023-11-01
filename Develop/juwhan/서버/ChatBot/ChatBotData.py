@@ -18,9 +18,5 @@ class Dokkaebi_Data:
         self.lostTime = None
         self.place = None
 
+    
 
-
-st="1200"
-
-print(int(st[0:2])*60)
-print(int(st[2:4]))

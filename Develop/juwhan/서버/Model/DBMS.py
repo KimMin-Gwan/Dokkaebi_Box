@@ -1,4 +1,4 @@
-from ..View.main_view import main_test
+#from ..View.main_view import main_test
 from typing import Any
 from flask import Flask, request
 import numpy as np
