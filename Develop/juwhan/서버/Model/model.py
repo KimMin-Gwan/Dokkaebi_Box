@@ -8,13 +8,9 @@ class Model():
 
     def get_device_manager(self):
         return self.device_manager
-    
-
-
-
 
 class Device_Id:
-    # 디바이스 아이디
+    # 디바이스 아이디   여기는 말그대로 박스 위치에 대한 클래스 이고 
     def __init__(self, id =-1, loc = "", state = False, size = -1):
         self.id = id  # 아이디
         self.loc = loc # 위치
@@ -31,8 +27,7 @@ class Device_Id:
 
 class Client_Id:
     def __init__(self):
-
-
+        
 
 class Device_Manager:
     def __init__(self, dbms):

@@ -29,10 +29,9 @@ class AppServer():
         
         # 되찾기
         # 본인인증이 필요함
-        @self.app.get('/hand_over/{client_id}')
+        @self.app.get('/find')
         async def return_data():
-            result = self.
-
+            result = self.controller.find()
             return result
         
         # 잘못된 진입 처리

@@ -18,7 +18,7 @@ class dokkaebi_ChatBot_Find:
     def __init__(self, data):
         self.hannanum = Hannanum()
         self.dokkaebi_data = data
-        self.chatbot_data = pd.read_excel("chatbot_data_find.xlsx")
+        self.chatbot_data = pd.read_excel("C:\\Users\\antl\\Documents\\GitHub\\Dokkaebi_Box\\Develop\\jaehyun\\test\\ChatBot\\chatbot_data_find.xlsx")
         self.chat_dic = {}
         self.initChatBot()
         self.step = 1

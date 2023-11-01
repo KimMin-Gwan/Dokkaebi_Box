@@ -14,5 +14,13 @@
 class Dokkaebi_Data:
     def __init__(self):
         self.classification = None
+        self.Date = None
         self.lostTime = None
         self.place = None
+
+
+
+st="1200"
+
+print(int(st[0:2])*60)
+print(int(st[2:4]))
