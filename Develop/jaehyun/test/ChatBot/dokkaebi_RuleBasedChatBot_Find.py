@@ -54,6 +54,8 @@ class dokkaebi_ChatBot_Find:
                     self.step += 1
                 elif self.chatbot_data['type'][k] == "time":
                     nlp_result = self.hannanum.nouns(request)
+                    if len(nlp_result) != 4:
+                        break
                     month = nlp_result[0][:nlp_result[0].rfind('월')]
                     day = nlp_result[1][:nlp_result[1].rfind('일')]
                     hour = nlp_result[2][:nlp_result[2].rfind('시')]
@@ -71,22 +73,22 @@ class dokkaebi_ChatBot_Find:
                     self.dokkaebi_data.lostTime = hour+minute
                     self.step+=1
                 return dokkaebi_response_str
-        return '무슨 말인지 모르겠어요'
+        return '무슨 말인지 이해하지 못했어요'
 
     def runChatBot(self):
         print("Seoul, my soul. 안녕하세요? 한강 도깨비 박스입니다.")
         while True:
             if self.step == 1:
-                print("어떤 물건을 찾으러 오셨나요?(스마트폰/지갑/기타)")
                 while True:
+                    print("어떤 물건을 찾으러 오셨나요?(스마트폰/지갑/기타)")
                     userResponse = input('입력 : ')
                     chatBotResponse = self.chat(userResponse)
                     print('도깨비박스 :', chatBotResponse)
                     if self.step != 1:
                         break
             elif self.step == 2:
-                print("물건을 언제 분실하셨나요? ex) 11월 3일 13시 30분")
                 while True:
+                    print("물건을 언제 분실하셨나요? ex) 11월 3일 13시 30분")
                     userResponse = input('입력 : ')
                     chatBotResponse = self.chat(userResponse)
                     print('도깨비박스 :', chatBotResponse)
