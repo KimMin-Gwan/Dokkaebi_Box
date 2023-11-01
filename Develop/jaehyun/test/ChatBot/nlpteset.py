@@ -1,7 +1,7 @@
 from konlpy.tag import Hannanum
 
 hannanum = Hannanum()
-test_txt= "11월 3일 13시 30분"
+test_txt= "11월13일 13시30분"
 print(hannanum.analyze(test_txt))
 
 
