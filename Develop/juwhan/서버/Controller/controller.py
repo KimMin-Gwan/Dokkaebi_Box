@@ -14,20 +14,15 @@ class Web_Controller():
         manager = Hand_Over()
     def find(self):
         
-        self.chat_bot_find=dokkaebi_ChatBot_Find()
+        self.chat_bot_find=dokkaebi_ChatBot_Find(self.find_data_find)
         self.find_data_find=self.chat_bot_find.runChatBot()
         
         find_manager=Find(self.find_data_find)
         final_data=find_manager.find_data_base() #최종 데이터 추후 작업은 이어서 예정
         
         #시나리오 작성 예시 ...... 
-        chk=input("이 데이터가 맞나요?")  
-        if chk=="1":
-            return final_data["path"]  #이미지가 저장되어있는 경로를 return한다.
-            ##qr코드 url 만들고 뭐 이런작업
-        else:
-            return False
-            #while true 로 계속 돌리고 챗봇 나가면 끝나게끔 다시 구성 
+        
+        return final_data["path"]  #이미지가 저장되어있는 경로를 return한다.
 class Hand_Over():
     def __init__(self):
         pass
@@ -56,16 +51,21 @@ class Find():  #Find 관련 함수 구현 예정
             all_data=self.dbms.find_data(qury_data)
         
         #그다음 시간에 대해서 가장 작은 시간 범위를 찾는다.
-        self.find_result=self.find_closet_time(self.data.losttime,all_data)
+        
+        if len(all_data) !=0: 
+            print(self.data.lostTime)
+            tartget_time=self.data.lostTime
+            self.find_result=self.find_closet_time(tartget_time,all_data)
         
         return self.find_result  #최종적으로 잃어버린 날짜 + 카테고리 + 시간에 대해서 찾은뒤 return해준다. 
 
     
     
-    def find_closet_time(target_data,list_data):
+    def find_closet_time(a,target_data,list_data):
         #target_data 는 사용자가입력한 시간데이터 1300 형식으로되어있을것
         #list_data에는 데이터 베이스에서 그대로 읽어온 데이터 리스트 형식
         #1315이면 13*60 + 15분으로 생각하고
+
         closet_min=25*60 
         target_min=int(target_data[0:2]) *60  +int(target_data[2:4])
         closet_min_data=None 

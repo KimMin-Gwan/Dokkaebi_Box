@@ -13,7 +13,7 @@ class AppServer():
     def register_routes(self):
         # 홈화면
         @self.app.get('/')
-        def main_view(self):
+        async def main_view(self):
             #result = self.controller.mainpage() # div 박스가 리턴되어야함
             #return result
             return {"message":"기본 웹페이지 입니다."}
@@ -31,9 +31,9 @@ class AppServer():
         # 본인인증이 필요함
         @self.app.get('/find')
         async def return_data():
-            result = self.controller.find()
+            result = self.controller.find()  #사진 path가 return된다. 
             if result !=False:
-                return FileResponse(result,media_type="image/jpeg")
+                return FileResponse(result,media_type="image/jpeg")  #file_Response를 통해서사진 출력
             #실제로는 result는 사진 데이터? 가 와야함 
             else:
                 return {"messages":"찾는 데이터가 없음 에 따른 출력 ...추후 구현"}
