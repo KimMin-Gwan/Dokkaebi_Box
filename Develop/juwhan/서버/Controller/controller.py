@@ -18,17 +18,16 @@ class Web_Controller():
         self.find_data_find=self.chat_bot_find.runChatBot()
         
         find_manager=Find(self.find_data_find)
-        print(find_manager.find_data_base())  #최종 데이터 추후 작업은 이어서 예정
+        final_data=find_manager.find_data_base() #최종 데이터 추후 작업은 이어서 예정
         
         #시나리오 작성 예시 ...... 
         chk=input("이 데이터가 맞나요?")  
         if chk=="1":
-            pass
+            return final_data["path"]  #이미지가 저장되어있는 경로를 return한다.
             ##qr코드 url 만들고 뭐 이런작업
         else:
-            pass
+            return False
             #while true 로 계속 돌리고 챗봇 나가면 끝나게끔 다시 구성 
-
 class Hand_Over():
     def __init__(self):
         pass
