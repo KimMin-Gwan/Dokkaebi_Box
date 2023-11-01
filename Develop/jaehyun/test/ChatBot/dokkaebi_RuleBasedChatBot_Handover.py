@@ -17,8 +17,8 @@ from konlpy.tag import Hannanum
 
 
 class dokkaebi_ChatBot_Handover:
-    def __init__(self, data, hannanum):
-        self.hannanum = hannanum
+    def __init__(self, data):
+        self.hannanum = Hannanum()
         self.dokkaebi_data = data
         self.chatbot_data = pd.read_excel("chatbot_data_handover.xlsx")
         self.chat_dic = {}
@@ -83,7 +83,7 @@ class dokkaebi_ChatBot_Handover:
                 while True:
                     userResponse = input('입력 : ')
                     chatBotResponse = self.chat(userResponse)
-                    print('도깨비박스 : ', chatBotResponse)
+                    print('도깨비박스 :', chatBotResponse)
                     if self.step != 1:
                         break
             elif self.step == 2:
@@ -91,7 +91,7 @@ class dokkaebi_ChatBot_Handover:
                 while True:
                     userResponse = input('입력 : ')
                     chatBotResponse = self.chat(userResponse)
-                    print('도깨비박스 : ', chatBotResponse)
+                    print('도깨비박스 :', chatBotResponse)
                     if self.step != 2:
                         break
             #elif self.step == 3:
@@ -110,6 +110,5 @@ class dokkaebi_ChatBot_Handover:
 
 if __name__ == "__main__":
     DokkaebiChatBot_Data = Dokkaebi_Data()
-    hannanum = Hannanum()
-    chatBot = dokkaebi_ChatBot_Handover(DokkaebiChatBot_Data, hannanum)
+    chatBot = dokkaebi_ChatBot_Handover(DokkaebiChatBot_Data)
     chatBot.runChatBot()
