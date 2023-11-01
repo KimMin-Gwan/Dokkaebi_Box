@@ -15,6 +15,7 @@ import pandas as pd
 from ChatBotData import *
 from konlpy.tag import Hannanum
 
+
 class dokkaebi_ChatBot_Handover:
     def __init__(self, data, hannanum):
         self.hannanum = hannanum
@@ -51,39 +52,64 @@ class dokkaebi_ChatBot_Handover:
             if index > -1:
                 if self.chatbot_data['type'][k] == "classification":
                     self.dokkaebi_data.classification = self.chatbot_data['data'][k]
+                    dokkaebi_response_str = self.chatbot_data['response'][k]
+                    self.step += 1
                 elif self.chatbot_data['type'][k] == "time":
-
-                return self.chatbot_data['response'][k]
+                    nlp_result = self.hannanum.nouns(request)
+                    month = nlp_result[0][:nlp_result[0].rfind('월')]
+                    day = nlp_result[1][:nlp_result[1].rfind('일')]
+                    hour = nlp_result[2][:nlp_result[2].rfind('시')]
+                    minute = hour = nlp_result[3][:nlp_result[3].rfind('분')]
+                    dokkaebi_response_str = month+"월 " +day+"일 " +hour +"시 "+minute+"분에 습득하셨군요"
+                    if len(month) == 1:
+                        month = "0" + month
+                    if len(day) == 1:
+                        day = "0" + day
+                    if len(hour) == 1:
+                        hour = "0" + hour
+                    if len(minute) == 1:
+                        minute = "0" + minute
+                    self.dokkaebi_data.Date = month+day
+                    self.dokkaebi_data.lostTime = hour+minute
+                    self.step+=1
+                return dokkaebi_response_str
         return '무슨 말인지 모르겠어요'
 
     def runChatBot(self):
         print("Seoul, my soul. 안녕하세요? 한강 도깨비 박스입니다.")
-        if self.step == 1:
-            print("어떤 물건을 맡기러 오셨나요?(스마트폰/지갑/기타)")
-            while True:
-                userResponse = input('입력 : ')
-                chatBotResponse = self.chat(userResponse)
-                print('도깨비박스 : ', chatBotResponse)
-        elif self.step == 2:
-            print("물건을 언제 주우셨나요?")
-            while True:
-                userResponse = input('입력 : ')
-                chatBotResponse = self.chat(userResponse)
-                print('도깨비박스 : ', chatBotResponse)
-        elif self.step == 3:
-            print("물건을 어디에서 주우셨나요?")
-            while True:
-                userResponse = input('입력 : ')
-                chatBotResponse = self.chat(userResponse)
-                print('도깨비박스 : ', chatBotResponse)
-        elif self.step == 4:
-            print("감사합니다. 도깨비 박스가 물건을 잘 보관할게요.")
-            print("마음이 모이면 서울이 됩니다. Seoul, my soul")
-
+        while True:
+            if self.step == 1:
+                print("어떤 물건을 맡기러 오셨나요?(스마트폰/지갑/기타)")
+                while True:
+                    userResponse = input('입력 : ')
+                    chatBotResponse = self.chat(userResponse)
+                    print('도깨비박스 : ', chatBotResponse)
+                    if self.step != 1:
+                        break
+            elif self.step == 2:
+                print("물건을 언제 습득하셨나요? ex) 11월 3일 13시 30분")
+                while True:
+                    userResponse = input('입력 : ')
+                    chatBotResponse = self.chat(userResponse)
+                    print('도깨비박스 : ', chatBotResponse)
+                    if self.step != 2:
+                        break
+            #elif self.step == 3:
+            #    print("물건을 어디에서 주우셨나요?")
+            #    while True:
+            #        userResponse = input('입력 : ')
+            #        chatBotResponse = self.chat(userResponse)
+            #        print('도깨비박스 : ', chatBotResponse)
+            #        if self.step != 3:
+            #            break
+            elif self.step == 3:
+                print("감사합니다. 도깨비 박스가 물건을 잘 보관할게요.")
+                print("마음이 모이면 서울이 됩니다. Seoul, my soul")
+                return self.dokkaebi_data
 
 
 if __name__ == "__main__":
-    DokkaebiChatBot_Data=Dokkaebi_Data()
+    DokkaebiChatBot_Data = Dokkaebi_Data()
     hannanum = Hannanum()
-    chatBot = dokkaebi_ChatBot(DokkaebiChatBot_Data, hannanum)
+    chatBot = dokkaebi_ChatBot_Handover(DokkaebiChatBot_Data, hannanum)
     chatBot.runChatBot()
