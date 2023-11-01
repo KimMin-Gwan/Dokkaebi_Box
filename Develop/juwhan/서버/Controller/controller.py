@@ -24,8 +24,10 @@ class Web_Controller():
         chk=input("이 데이터가 맞나요?")  
         if chk=="1":
             pass
+            ##qr코드 url 만들고 뭐 이런작업
         else:
             pass
+            #while true 로 계속 돌리고 챗봇 나가면 끝나게끔 다시 구성 
 
 class Hand_Over():
     def __init__(self):
