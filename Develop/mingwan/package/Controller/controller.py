@@ -1,3 +1,5 @@
+from Model.DBMS import *
+
 
 class Web_Controller():
     def __init__(self, model):
@@ -8,13 +10,27 @@ class Web_Controller():
     def mainpage(self):
         return {"message":"Welcom To Dokkaebi Box"}
     
-    def hand_over(device_id, client_id, temp_id):
+    def hand_over(self, device_id):
+        # 본인 인증
+        manager = Hand_Over(device_id, self.model)
+        
 
-        manager = Hand_Over()
 
 
 
 class Hand_Over():
-    def __init__(self):
+    def __init__(self, data, model) -> None:
+        self.data = data
+    
+    """
+    1. 
+    2. 
+    3. 
+
+    """
+
+
+
+
         
 
