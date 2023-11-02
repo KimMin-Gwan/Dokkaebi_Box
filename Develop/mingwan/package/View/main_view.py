@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import RedirectResponse
 from package import Model
 
+
 class AppServer():
     # 초기화
     def __init__(self, app, controller):
@@ -29,11 +30,9 @@ class AppServer():
         
         # 되찾기
         # 본인인증이 필요함
-        @self.app.get('/hand_over/{client_id}')
-        async def return_data():
-            result = self.
+        
 
-            return result
+
         
         # 잘못된 진입 처리
         @self.app.get('/bad_request')

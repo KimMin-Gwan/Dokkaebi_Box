@@ -14,7 +14,7 @@
 import pandas as pd
 from ChatBotData import *
 from konlpy.tag import Hannanum
-
+import os
 
 class dokkaebi_ChatBot_Handover:
     def __init__(self, data):
