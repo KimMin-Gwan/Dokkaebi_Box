@@ -13,12 +13,12 @@
 
 import pandas as pd
 from ChatBotData import *
-from konlpy.tag import Hannanum
+from konlpy.tag import Okt
 import os
 
 class dokkaebi_ChatBot_Handover:
     def __init__(self, data):
-        self.hannanum = Hannanum()
+        self.Okt = Okt()
         self.dokkaebi_data = data
         self.chatbot_data = pd.read_excel("chatbot_data_handover.xlsx")
         self.chat_dic = {}
@@ -55,7 +55,7 @@ class dokkaebi_ChatBot_Handover:
                     dokkaebi_response_str = self.chatbot_data['response'][k]
                     self.step += 1
                 elif self.chatbot_data['type'][k] == "time":
-                    nlp_result = self.hannanum.nouns(request)
+                    nlp_result = self.Okt.morphs(request)
                     if len(nlp_result) != 4:
                         break
                     month = nlp_result[0][:nlp_result[0].rfind('월')]

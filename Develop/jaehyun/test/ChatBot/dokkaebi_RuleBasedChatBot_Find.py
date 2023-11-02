@@ -12,11 +12,11 @@
 """
 import pandas as pd
 from ChatBotData import *
-from konlpy.tag import Hannanum
+from konlpy.tag import Okt
 
 class dokkaebi_ChatBot_Find:
     def __init__(self, data):
-        self.hannanum = Hannanum()
+        self.Okt = Okt()
         self.dokkaebi_data = data
         self.chatbot_data = pd.read_excel("C:\\Users\\antl\\Documents\\GitHub\\Dokkaebi_Box\\Develop\\jaehyun\\test\\ChatBot\\chatbot_data_find.xlsx")
         self.chat_dic = {}
@@ -53,7 +53,7 @@ class dokkaebi_ChatBot_Find:
                     dokkaebi_response_str = self.chatbot_data['response'][k]
                     self.step += 1
                 elif self.chatbot_data['type'][k] == "time":
-                    nlp_result = self.hannanum.nouns(request)
+                    nlp_result = self.Okt.morphs(request)
                     if len(nlp_result) != 4:
                         break
                     month = nlp_result[0][:nlp_result[0].rfind('월')]
