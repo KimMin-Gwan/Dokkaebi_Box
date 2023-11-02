@@ -6,6 +6,7 @@ class Web_Controller():
         self.model = model
         self.chat_bot_find= None   #chat 봇 클래스  
         self.find_data_find=Dokkaebi_Data()  #chat bot을 통해 찾은 data class
+        self.image_number="0"  #사진이 저장될때마다 +1씩 증가될 부분이다. 
     def mainpage(self):
         return {"message":"Welcom To Dokkaebi Box"}
     
@@ -26,7 +27,7 @@ class Web_Controller():
 class Hand_Over():
     def __init__(self):
         pass
-
+        
 
 class Find():  #Find 관련 함수 구현 예정
     def __init__(self,data) -> None:
