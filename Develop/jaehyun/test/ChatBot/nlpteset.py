@@ -2,7 +2,7 @@ from konlpy.tag import Hannanum, Okt
 
 hannanum = Hannanum()
 Okt = Okt()
-test_txt= "11월 1일 13시36분"
+test_txt= "cell phone"
 print(hannanum.analyze(test_txt))
 print(hannanum.morphs(test_txt))
 print(hannanum.nouns(test_txt))
