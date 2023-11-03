@@ -37,14 +37,13 @@ class dokkaebi_MagneticSensor:
     def runMagneticSensor(self):
         
         while True:
-            print(1)
             if GPIO.wait_for_edge(MAGNETIC_DEFAULT_PIN, GPIO.RISING, bouncetime=300) == MAGNETIC_DEFAULT_PIN:
                 self.setMagnetic_close()
                 self.dokkaebi_Rasp_Cam.run_Camera()
                 self.dokkaebi_Rasp_Servo.closeDoor()
                 print("SYSTEM MESSAGE::The door closed")
             if GPIO.wait_for_edge(MAGNETIC_DEFAULT_PIN, GPIO.FALLING, bouncetime=300) == MAGNETIC_DEFAULT_PIN:
-                self.dokkaebi_Rasp_Servo.openDoor()
+                #self.dokkaebi_Rasp_Servo.openDoor()
                 print("SYSTEM MESSAGE::The door opened")
 
         #while True:
