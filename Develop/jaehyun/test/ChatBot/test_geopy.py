@@ -7,6 +7,8 @@ def geocoding(address):
     crd = {"lat": str(geo.latitude), "lng": str(geo.longitude)}
 
     return crd
+
+crd = geocoding("dmc첨단산업센터")
 try:
     crd = geocoding("첨단산업센터")
     print(crd)

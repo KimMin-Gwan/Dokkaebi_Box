@@ -20,7 +20,7 @@ class dokkaebi_ChatBot_Handover:
     def __init__(self, data):
         self.hannanum = Hannanum()
         self.dokkaebi_data = data
-        self.chatbot_data = pd.read_excel("chatbot_data_handover.xlsx")
+        self.chatbot_data = pd.read_excel("C:\\Users\\maths\\Documents\\GitHub\\Dokkaebi_Box\\Develop\\juwhan\\서버\\ChatBot\\chatbot_data_handover.xlsx")
         self.chat_dic = {}
         self.initChatBot()
         self.step = 1
