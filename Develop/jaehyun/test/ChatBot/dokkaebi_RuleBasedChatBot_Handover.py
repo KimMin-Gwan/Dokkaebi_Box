@@ -27,7 +27,7 @@ class dokkaebi_ChatBot_Handover:
         self.chat_dic = {}
         self.initChatBot()
         self.step = 1
-        self.flag = 1   # 0 (정상 입력)/ 1(잘못된 입력)
+        self.geopyFlag = 1   # 0 (정상 입력)/ 1(잘못된 입력)
 
     def initChatBot(self):
         # rule의 데이터를 split하여 list형태로 변환 후, index값과 함께 dictionary 형태로 저장
