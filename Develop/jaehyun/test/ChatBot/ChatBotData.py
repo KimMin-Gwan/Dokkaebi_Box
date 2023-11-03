@@ -16,4 +16,6 @@ class Dokkaebi_Data:
         self.classification = None
         self.Date = None
         self.lostTime = None
-        self.place = None
+        self.lostplace = None
+        self.lat = None # latitude 위도
+        self.lng =None  # longitude 경도
