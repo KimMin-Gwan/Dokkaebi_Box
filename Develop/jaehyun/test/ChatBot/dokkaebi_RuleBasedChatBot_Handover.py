@@ -16,6 +16,7 @@ import pandas as pd
 from ChatBotData import *
 from konlpy.tag import Okt, Hannanum
 from geopy.geocoders import Nominatim
+from Constant import *
 import os
 
 class dokkaebi_ChatBot_Handover:
@@ -66,7 +67,7 @@ class dokkaebi_ChatBot_Handover:
                     month = nlp_result[0][:nlp_result[0].rfind('월')]
                     day = nlp_result[1][:nlp_result[1].rfind('일')]
                     hour = nlp_result[2][:nlp_result[2].rfind('시')]
-                    minute = hour = nlp_result[3][:nlp_result[3].rfind('분')]
+                    minute = nlp_result[3][:nlp_result[3].rfind('분')]
                     dokkaebi_response_str = month+"월 " +day+"일 " +hour +"시 "+minute+"분에 습득하셨군요"
                     if len(month) == 1:
                         month = "0" + month
@@ -122,10 +123,14 @@ class dokkaebi_ChatBot_Handover:
                     for rst in nlpResult:
                         try:
                             crd = self.geocoding(rst)
-                            self.geopyFlag = 0
-                            self.dokkaebi_data.lostplace = rst
-                            print('{}을(를) 습득하신 곳은 {} 이군요.'.format(self.dokkaebi_data.lostItem, self.dokkaebi_data.lostplace))
-                            break
+                            if float(crd['lat']) >= SEOULLOWERBOUNDARY and float(crd['lat']) <= SEOULUPPERBOUNDARY and float(crd['lng']) <= SEOULRIGHTBOUNDARY and float(crd['lng']) >= SEOULLEFTBOUNDARY:
+                                self.geopyFlag = 0
+                                self.dokkaebi_data.lostplace = rst
+                                self.dokkaebi_data.lat = crd['lat']
+                                self.dokkaebi_data.lng = crd['lng']
+                                print('{}을(를) 습득하신 곳은 {} 이군요.'.format(self.dokkaebi_data.lostItem, self.dokkaebi_data.lostplace))
+                                break
+                            print('입력하는 곳은 서비스 지역 입니다.')
                         except:
                             continue
                     if self.geopyFlag == 0:
