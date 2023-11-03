@@ -132,8 +132,8 @@ class dokkaebi_ChatBot_Handover:
     def getPlaceFromUserChat(self, usrResponse):    # 기존 step 3
         self.rspFlag = 1
         dokkaebi_Response = '무슨말인지 잘 모르겠어요' if self.lang == "Ko" else "Sorry, I can't understand"
-        userResponse = input('입력(Input) : ')
-        userResponse = userResponse.replace('이요', "")
+
+        userResponse = usrResponse.replace('이요', "")
         if self.lang == "Ko":
             nlpResult = self.Hannanum.nouns(userResponse)
             for rst in nlpResult:
