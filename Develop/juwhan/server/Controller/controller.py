@@ -4,6 +4,7 @@ from ChatBot.ChatBotData import *
 from Controller.constant import *
 from Controller.UDP_Con import *
 import math
+from datetime import datetime
 class Web_Controller:
     def __init__(self, model,info):
         self.model = model 
@@ -22,14 +23,12 @@ class Web_Controller:
         manager = Hand_Over(self.hand_over_data,self.info) #hand_over class실행
         manager.run_hand_over()  #handover 함수 실행  
 
-    def find(self):
-        
+    def find(self): 
         self.chat_bot_find=dokkaebi_ChatBot_Find(self.find_data_find)
         self.find_data_find=self.chat_bot_find.runChatBot()
         find_manager=Find(self.find_data_find)
         final_data=find_manager.find_data_base() #최종 데이터 추후 작업은 이어서 예정
         #시나리오 작성 예시 ...... 
-        
         return final_data[PATH]  #이미지가 저장되어있는 경로를 return한다.
     
 
@@ -156,7 +155,27 @@ class Find():  #Find 관련 함수 구현 예정
 
         return closest_points
 
-    
+    def find_date(self,target_date,data_list):
+        month_list=[0,31,28,31,30,31,30,31,31,30,31,30,31]
+        now_month=datetime.today().month
+        now_day=datetime.today().day
+        result_date=[]
+        #시작 날부터 오늘까지 다 보여주는것 이때 같은 날짜일때는 거리순으로 또 다시 정렬 해주는 프로그램
+        #6개월 정도 12월 10일 
+        temp_month=target_date[0:2]+6  #month
+        chk_month=[i for i in range(target_date[0:2],target_date[0:2]+6)]
+        for i in range(len(chk_month)): #시작 달월 부터 끝나는 달월 chk
+            if chk_month[i]>12:
+                chk_month[i]-=12
+        for day in range(target_date[2:4],month_list[target_date[0:2]]):  #맨첫달은 시작부터 자기달 마지막까지 chk해야하니까
+            for i in range(len(data_list)):
+                if(data_list[i].Date==(target_date[0:2]+str(day))):
+                    result_date.append(data_list[i])
+                    del data_list[i]#재검색하지않게 하기위해서 지운다.
+        
+        temp_day=target_date[2:4]  #day
+
+
                 
         
             
