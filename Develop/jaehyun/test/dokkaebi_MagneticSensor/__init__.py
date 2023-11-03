@@ -11,4 +11,4 @@
 * JH KIM            2023.11.03		v1.00		First Write
 """
 from dokkaebi_MagneticSensor.magneticConstant import *
-from MagneticSensor import *
+from dokkaebi_MagneticSensor.MagneticSensor import *
