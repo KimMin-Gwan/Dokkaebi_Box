@@ -40,6 +40,7 @@ class dokkaebi_MagneticSensor:
                 self.dokkaebi_Rasp_Cam.run_Camera()
                 self.dokkaebi_Rasp_Servo.closeDoor()
                 print("SYSTEM MESSAGE::The door closed")
-
-
+            if GPIO.wait_for_edge(MAGNETIC_DEFAULT_PIN, GPIO.RISING, bouncetime=200) == MAGNETIC_DEFAULT_PIN:
+                self.dokkaebi_Rasp_Servo.openDoor()
+                print("SYSTEM MESSAGE::The door opened")
 
