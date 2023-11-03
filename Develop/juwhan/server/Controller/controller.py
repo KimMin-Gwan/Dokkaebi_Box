@@ -37,7 +37,7 @@ class Hand_Over():
         self.qury_data={} 
     def input_data_base(self):
         self.qury_data["category"]=self.hand_over_data.classification
-        self.qury_data["location"]=self.hand_over_data.place
+        self.qury_data["location"]=self.hand_over_data.lostplace
         self.qury_data["path"]= SAVE_IMAGE_PATH
         self.qury_data["time"]=self.hand_over_data.lostTime
         self.dbms.input_data(self.qury_data)

@@ -13,7 +13,7 @@
 """
 
 import pandas as pd
-from ChatBotData import *
+from ChatBot.ChatBotData import *
 from konlpy.tag import Okt, Hannanum
 from geopy.geocoders import Nominatim
 import os
@@ -23,7 +23,7 @@ class dokkaebi_ChatBot_Handover:
         self.Okt = Okt()
         self.Hannanum = Hannanum()
         self.dokkaebi_data = data
-        self.chatbot_data = pd.read_excel("chatbot_data_handover.xlsx")
+        self.chatbot_data = pd.read_excel("C:\\Users\\maths\\Documents\\GitHub\\Dokkaebi_Box\\Develop\\juwhan\\server\\ChatBot\\chatbot_data_handover.xlsx")
         self.chat_dic = {}
         self.initChatBot()
         self.step = 1
