@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import ReactDOM from "react-dom";
-import MainPage from "./MainPage";
+import MainPage from "./ChatApp";
 import React, { useState, useEffect } from "react";
 
 
