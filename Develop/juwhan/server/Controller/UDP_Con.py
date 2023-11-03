@@ -33,10 +33,6 @@ class UDP:
     def get_imge_path(self):
         self.qury_data["path"]=self.save_path  #이미지 경로 저장
     
-    def hashcode(self):
-        self.QRPASSORD=random.randrange(1,200000)
-        self.QRPASSORD=str(self.QRPASSORD)
-        self.qury_data["PWD"]=(self.QRPASSORD)
         
     def recevie_data(self):
         self.picture=b''
@@ -46,11 +42,6 @@ class UDP:
                 break 
             self.picture+=data
             
-    def makeInputDataDict(self):
-        data={}
-        data["path"]=self.get_imge_path()
-        data["PWD"]=self.hashcode()
-        return data
     def capture_image(self):
         self.recevie_data()
         self.save_picture()

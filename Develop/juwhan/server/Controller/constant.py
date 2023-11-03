@@ -13,3 +13,4 @@ DATE="date"   #분실한 날짜
 LOSTPLACE="lostplace"  #분실한 장소 
 LOSTTIME="losttime"  #분실한 시간 
 PATH="path"  #이미지 저장 path 
+PWD="password"

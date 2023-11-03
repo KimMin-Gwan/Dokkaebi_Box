@@ -21,6 +21,7 @@ class Web_Controller:
         self.hand_over_data=self.chat_bot_hand_over.runChatBot()  #챗봇을 통해서 맡길 데이터를입력 받는다. 
         manager = Hand_Over(self.hand_over_data,self.info) #hand_over class실행
         manager.run_hand_over()  #handover 함수 실행  
+
     def find(self):
         
         self.chat_bot_find=dokkaebi_ChatBot_Find(self.find_data_find)
@@ -30,6 +31,9 @@ class Web_Controller:
         #시나리오 작성 예시 ...... 
         
         return final_data[PATH]  #이미지가 저장되어있는 경로를 return한다.
+    
+
+
 class Hand_Over():
 
     def __init__(self,data,info):
@@ -40,12 +44,13 @@ class Hand_Over():
         self.qury_data={} 
 
     def input_data_base(self):
-        self.qury_data[CLASSIFICATION]=self.hand_over_data.classification
-        self.qury_data[LOSTPLACE]=self.hand_over_data.lostplace
-        self.qury_data[PATH]= SAVE_IMAGE_PATH
-        self.qury_data[LOSTTIME]=self.hand_over_data.lostTime
-        self.qury_data[LAT]=self.hand_over_data.lat
-        self.qury_data[LNG]=self.hand_over_data.lng
+        self.qury_data[CLASSIFICATION]=self.hand_over_data.classification  #종류
+        self.qury_data[LOSTPLACE]=self.hand_over_data.lostplace  #잃어버린 위치
+        self.qury_data[PATH]= SAVE_IMAGE_PATH+self.info.get_imge_num()+".jpg"  #이미지 save_path
+        self.qury_data[LOSTTIME]=self.hand_over_data.lostTime  #잃어버린 시간
+        self.qury_data[LAT]=self.hand_over_data.lat  #위도  
+        self.qury_data[LNG]=self.hand_over_data.lng  #경도
+        self.qury_data[PWD]=self.hashcode()  #비밀번호 
         self.dbms.input_data(self.qury_data)
 
     def receive_data(self):   #여기서 udp통신을 통해서 라즈베리파이로 부터 사진 이미지를 받아온다.
@@ -58,6 +63,9 @@ class Hand_Over():
         #그다음 사진이 유호한지는 추후 민관 개발
         self.input_data_base()   #database에 저장한다.
 
+    def hashcode(self):
+        code=str(random.randrange(1,100000))
+        return code
 
 
 class Find():  #Find 관련 함수 구현 예정
@@ -74,6 +82,7 @@ class Find():  #Find 관련 함수 구현 예정
     4순위 : 위치기반
     일단 날짜랑 카테고리는 default라 생각하고 시간만 계산 한다. 위치는 추후 계산 
     """
+    
     def find_data_base(self):
         
         #1 2 순위는 항상 입력되었다 생각하고 
@@ -147,7 +156,7 @@ class Find():  #Find 관련 함수 구현 예정
 
         return closest_points
 
-        
+    
                 
         
             
