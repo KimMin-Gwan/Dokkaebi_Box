@@ -13,13 +13,13 @@ from Controller.constant import *
 
 class UDP:
 
-    def __init__(self):
+    def __init__(self,info):
         self.socket=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
         self.socket.bind((UDP_IP,UDP_PORT))
+        self.info=info
         self.picture=b''
         self.path=SAVE_IMAGE_PATH
-        self.img_num=0
-        self.save_path=f"{SAVE_IMAGE_PATH}{self.img_num}.jpg"
+        self.save_path=f"{SAVE_IMAGE_PATH}"
         self.QRPASSORD=""
         self.qury_data={}
 
@@ -27,8 +27,8 @@ class UDP:
     def save_picture(self):  #사진 저장 함수
         image_stram=io.BytesIO(self.picture)
         image=Image.open(image_stram)
-        image.save(self.save_path)
-        self.img_num+=1  #사진이 저장될때마다 저장소 +=1 추후 category별로 나눌지는 상의
+        image.save(self.save_path+str(self.info.get_img_num())+".jpg")
+        self.info.set_img_num()
         
     def get_imge_path(self):
         self.qury_data["path"]=self.save_path  #이미지 경로 저장

@@ -4,8 +4,12 @@ UDP_PORT = 8000
 END_FLAG="end".encode()
 MAX_SEND_BYTES=10000
 
+#####데이터 베이스 key값 정리 
 
-
-
-
-
+CLASSIFICATION="classification"   #분류 말 그대로 cellphone wallet etc등등
+LAT="let"  #위도
+LNG="lng"  #경도
+DATE="date"   #분실한 날짜
+LOSTPLACE="lostplace"  #분실한 장소 
+LOSTTIME="losttime"  #분실한 시간 
+PATH="path"  #이미지 저장 path 

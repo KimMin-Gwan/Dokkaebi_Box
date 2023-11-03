@@ -4,12 +4,14 @@ from Controller import Web_Controller
 from Model import *
 from Model.DBMS import *
 from fastapi.responses import FileResponse
+from information import *
 class Main:
     def __init__(self):
         self.app = FastAPI()
         self.dbms= DataBase()
         self.model=Model(self.dbms)
-        self.web_controller = Web_Controller(self.model)
+        self.info=info()
+        self.web_controller = Web_Controller(self.model,self.info)
         #self.app_server = AppServer(self.app, self.web_controller)
         self.sample()
         
