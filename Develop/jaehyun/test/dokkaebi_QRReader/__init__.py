@@ -10,4 +10,4 @@
 * Author    		Date		    Version		History
 * JH KIM            2023.11.03		v1.00		First Write
 """
-from barcodeReader import *
+from dokkaebi_QRReader.barcodeReader import *
