@@ -13,12 +13,12 @@ function ItemPage() {
   const [itemImage, setItemImage] = useState(null);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/getImage")
+    fetch("http://127.0.0.1:8001/getImage")
       .then(response => response.json())
       .then(data => setImageData(data.image_data))
       .catch(error => console.error('이미지 데이터 가져오기 실패', error));
 
-    fetch("http://127.0.0.1:8000/getItem")
+    fetch("http://127.0.0.1:8001/getItem")
       .then((response) => response.json())
       .then((data) => {
         setFoundFlag(data.flag);

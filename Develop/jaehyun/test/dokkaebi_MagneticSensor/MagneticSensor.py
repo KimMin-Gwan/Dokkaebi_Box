@@ -16,7 +16,7 @@ import RPi.GPIO as GPIO #import the GPIO library
 import time
 from dokkaebi_MagneticSensor.magneticConstant import *
 
-class dokkaebi_MagneticSensor:
+class dokkaebi_Magneticsensor:
     def __init__(self, dokkaebi_Rasp_Cam, dokkaebi_Rasp_Servo):
         self.dokkaebi_Rasp_Cam = dokkaebi_Rasp_Cam
         self.dokkaebi_Rasp_Servo = dokkaebi_Rasp_Servo

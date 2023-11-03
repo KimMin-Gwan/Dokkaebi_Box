@@ -88,7 +88,7 @@ function ChatMessages() {
   //state = { messages: [], newMessage : '' };
 
   useEffect(() => {
-  const newSocket = new WebSocket('ws://127.0.0.1:8000/'); // 서버 주소를 적절히 변경하세요
+  const newSocket = new WebSocket('ws://127.0.0.1:8001/'); // 서버 주소를 적절히 변경하세요
 
   newSocket.onopen = () => {
     console.log('WebSocket 연결 성공');

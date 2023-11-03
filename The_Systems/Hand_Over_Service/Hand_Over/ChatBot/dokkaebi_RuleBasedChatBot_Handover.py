@@ -178,11 +178,11 @@ class dokkaebi_ChatBot_Handover:
         if self.lang == "Ko":
             #print("감사합니다. 도깨비박스가 물건을 잘 보관할게요.")
             #print("마음이 모이면 서울이 됩니다. Seoul, my soul")
-            return "감사합니다. 도깨비박스가 물건을 잘 보관할게요.\n마음이 모이면 서울이 됩니다. Seoul, my soul"
+            return "감사합니다. 도깨비박스가 물건을 잘 보관할게요.\n마음이 모이면 서울이 됩니다. Seoul, my soul", False
         else:
             #print("Dokkaebi Box will keep the goods safe. Thank you")
             #print("Seoul, my soul")
-            return "Dokkaebi Box will keep the goods safe. Thank you\nSeoul, my soul"
+            return "Dokkaebi Box will keep the goods safe. Thank you\nSeoul, my soul", False
     def runChatBot(self):
         print("Seoul, my soul. 안녕하세요? 한강 도깨비 박스입니다.(Hello, I am the Dokkaebi Box)")
         while True:
