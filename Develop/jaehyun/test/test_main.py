@@ -14,8 +14,7 @@ from dokkaebi_Raspberry import *
 
 def main():
     dokkaebi_RaspberryPI = dokkaebi_Raspberry()
-    while True:
-        dokkaebi_RaspberryPI.dokkaebi_Rasp_Magnetic.getMagneticDoorState()
+    dokkaebi_RaspberryPI.run_dokkaebi_Raspberry()
 
 
 if __name__ == "__main__":
