@@ -48,8 +48,3 @@ class clsdokkaebi_Box_Cam:
         self.open_image()
         self.send_image()
 
-
-
-if __name__ == "__main__":
-    cli = Client()
-    cli.run_Camera()
