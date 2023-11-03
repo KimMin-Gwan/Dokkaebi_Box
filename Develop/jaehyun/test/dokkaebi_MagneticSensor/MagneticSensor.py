@@ -1,7 +1,7 @@
 """
 * Project : 2023 Seoul AIOT Hackathon
 * Program Purpose and Features :
-* - class MagneticSensor
+* - class dokkaebi_MagneticSensor
 * Author : JH KIM
 * First Write Date : 2023.11.03
 * ==========================================================================
@@ -16,8 +16,10 @@ import RPi.GPIO as GPIO #import the GPIO library
 import time
 from magneticConstant import *
 
-class clsMagneticSensor:
-    def __init__(self):
+class dokkaebi_MagneticSensor:
+    def __init__(self, dokkaebi_Rasp_Cam, dokkaebi_Rasp_Servo):
+        self.dokkaebi_Rasp_Cam = dokkaebi_Rasp_Cam
+        self.dokkaebi_Rasp_Servo = dokkaebi_Rasp_Servo
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(MAGNETIC_DEFAULT_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         self.magneticDoorState = False # False(닫힘)/True(열림)
@@ -35,13 +37,9 @@ class clsMagneticSensor:
         while True:
             if GPIO.wait_for_edge(MAGNETIC_DEFAULT_PIN, GPIO.FALLING, bouncetime=200) == MAGNETIC_DEFAULT_PIN:
                 self.setMagnetic_close()
+                self.dokkaebi_Rasp_Cam.run_Camera()
+                self.dokkaebi_Rasp_Servo.closeDoor()
                 print("SYSTEM MESSAGE::The door closed")
-            if GPIO.wait_for_edge(MAGNETIC_DEFAULT_PIN, GPIO.RISING, bouncetime=200) == MAGNETIC_DEFAULT_PIN:
-                self.setMagnetic_open()
-                print("SYSTEM MESSAGE::The door opened")
 
 
 
-if __name__ == "__main__":
-    mag = clsMagneticSensor()
-    mag.runMagneticSensor()

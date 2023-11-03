@@ -16,8 +16,8 @@ from DataBase import *
 from server import *
 
 from Information import *
-#from QRReader import *
-#from ServoMotor import *
+#from dokkaebi_QRReader import *
+#from dokkaebi_Servo import *
 from threading import Thread
 def main():
     info = clsInformation()     # information class instance

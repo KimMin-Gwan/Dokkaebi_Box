@@ -1,7 +1,7 @@
 """
 * Project : 2023 Seoul AIOT Hackathon
 * Program Purpose and Features :
-* - MagneticSensor Constant
+* - class dokkaebi_QRReader init
 * Author : JH KIM
 * First Write Date : 2023.11.03
 * ==========================================================================
@@ -10,4 +10,4 @@
 * Author    		Date		    Version		History
 * JH KIM            2023.11.03		v1.00		First Write
 """
-MAGNETIC_DEFAULT_PIN = 10
+from barcodeReader import *
