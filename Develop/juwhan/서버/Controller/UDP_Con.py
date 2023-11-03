@@ -13,11 +13,10 @@ from Controller.constant import *
 
 class UDP:
 
-    def __init__(self,info):
+    def __init__(self):
         self.socket=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
         self.socket.bind((UDP_IP,UDP_PORT))
         self.picture=b''
-        self.info=info
         self.path=SAVE_IMAGE_PATH
         self.img_num=0
         self.save_path=f"{SAVE_IMAGE_PATH}{self.img_num}.jpg"

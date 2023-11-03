@@ -23,12 +23,15 @@ class Main:
             result = self.web_controller.find()  #사진 path가 return된다. 
             return FileResponse(result,media_type="image/jpeg")  #file_Response를 통해서사진 출력
             #실제로는 result는 사진 데이터? 가 와야함 
-        
-        
+        @self.app.get('/handover')
+        async def hand_over():
+            self.web_controller.hand_over()
+            
 def main():
     main_cls = Main()
     import uvicorn
     uvicorn.run(main_cls.app, host="127.0.0.1", port=8000)
+
 
 
 if __name__ == "__main__":

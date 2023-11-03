@@ -8,7 +8,7 @@ def geocoding(address):
 
     return crd
 
-crd = geocoding("반포한강공원")
+crd = geocoding("dmc첨단산업센터")
 #crd = geocoding("서울역")
 #crd = geocoding("동대구역")
 #crd = geocoding("영남대")
