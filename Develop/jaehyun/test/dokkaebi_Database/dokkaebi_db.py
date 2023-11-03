@@ -22,8 +22,9 @@ class DataBase():
         self.collection=self.db[DB_LOC]
         self.return_data=[]
 
-        
+
     def find_data(self,find_data):
+        self.return_data=[]
         result=self.collection.find(find_data)
         for doc in result:
             self.return_data.append(doc) 
