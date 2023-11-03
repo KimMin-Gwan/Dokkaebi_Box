@@ -64,7 +64,7 @@ class dokkaebi_BarcodeReader:
                 if len(self.db.find_data({"password":barcodeData})) !=0:
                     self.dokkaebi_Servo.openDoor()
                     print("맞습니다 문 열리겠습니다.")
-                self.info.QRcodeData = barcodeData
+                #self.info.QRcodeData = barcodeData
                 barcodeType = barcode.type  # barcode type(barcode, qrcode)
                 text = "{} ({})".format(barcodeData, barcodeType)
                 cv2.putText(frame, text, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)  # text 출력
@@ -83,7 +83,7 @@ class dokkaebi_BarcodeReader:
             #     # the barcode data is a bytes object so if we want to draw it
             #     # on our output image we need to convert it to a string first
             #     # 바코드 데이터는 바이트 객체이므로, 어떤 출력 이미지에 그리려면 가장 먼저 문자열로 변환해야 한다.
-            #     barcodeData = barcode.data.decode("utf-8")
+        #     barcodeData = barcode.data.decode("utf-8")
             #     barcodeType = barcode.type
             #
             #     # draw the barcode data and barcode type on the image
