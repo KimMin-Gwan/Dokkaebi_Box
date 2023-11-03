@@ -13,29 +13,33 @@ function ItemPage() {
   const [itemImage, setItemImage] = useState(null);
 
   useEffect(() => {
-  fetch("http://127.0.0.1:8000/getImage")
-    .then(response => response.json())
-    .then(data => setImageData(data.image_data))
-    .catch(error => console.error('이미지 데이터 가져오기 실패', error));
+    fetch("http://127.0.0.1:8000/getImage")
+      .then(response => response.json())
+      .then(data => setImageData(data.image_data))
+      .catch(error => console.error('이미지 데이터 가져오기 실패', error));
 
-  fetch("http://127.0.0.1:8000/getItem")
-    .then((response) => response.json())
-    .then((data) => {
-      setFoundFlag(data.flag);
-      setTime(data.losttime);
-      setDate(data.date);
-      setLostPlace(data.lostPlace);
-      setLat(data.let);
-      setLng(data.lng);
-      setClassification(data.classification);
-      if (data.itemImageURL) {
-        setItemImage(data.itemImageURL); // 이미지 URL을 상태 변수에 저장
-      }
-    });
+    fetch("http://127.0.0.1:8000/getItem")
+      .then((response) => response.json())
+      .then((data) => {
+        setFoundFlag(data.flag);
+        setTime(data.losttime);
+        setDate(data.date);
+        setLostPlace(data.lostPlace);
+        setLat(data.let);
+        setLng(data.lng);
+        setClassification(data.classification);
+        if (data.itemImageURL) {
+          setItemImage(data.itemImageURL); // 이미지 URL을 상태 변수에 저장
+        }
+      });
+
+
+
   }, []);
 
   return (
     <div className="container">
+      <h1> 아래의 물건이 등록됩니다. 감사합니다.</h1>
       <div className="image-container">
         {imageData && <img src={`data:image/jpeg;base64,${imageData}`} alt="이미지" />}
       </div>
@@ -49,7 +53,6 @@ function ItemPage() {
         {itemImage && (
           <img src={itemImage} alt="아이템 이미지" />
         )}
-        <button className="rounded-button">내 물건이 맞아요</button>
       </div>
     </div>
   );

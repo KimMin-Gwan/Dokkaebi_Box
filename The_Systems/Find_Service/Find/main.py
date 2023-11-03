@@ -13,7 +13,7 @@ class Info:
     
     def set_img_num(self):
         self.img_num+=1
-
+    
 def main():
     app = FastAPI()
     info = Info()

@@ -4,6 +4,8 @@ from fastapi import FastAPI, HTTPException, WebSocket
 from pydantic import BaseModel
 from starlette.middleware.cors import CORSMiddleware
 from fastapi.websockets import WebSocketDisconnect
+from ChatBot.ChatBotData import *
+import base64
 
 class AppServer():
     # 초기화
@@ -32,33 +34,64 @@ class AppServer():
 
         @self.app.websocket("/")
         async def websocket_endpoint(websocket: WebSocket):
+            self.bot = self.controller.get_bot()  #사진 path가 return된다. 
             await websocket.accept()
-            while True:
+            message = await websocket.receive_text()
+
+            flag = True
+            while (flag):
+                res, flag = self.bot.fun1(message)
+                await websocket.send_text(res)  # 서버에서 메시지 전송
+
                 message = await websocket.receive_text()
-                #print(message)
-                # 입력에 대한 분석을 진행
-                # 첫번째 질문은 무조건 무엇을 잃어버렸나요?
+            flag = True
+            while (flag):
+                res, flag = self.bot.fun2(message)
+                await websocket.send_text(res)  # 서버에서 메시지 전송
 
-                ####result = self.controller
-                #await websocket.send_text(result)  # 서버에서 메시지 전송
+                message = await websocket.receive_text()
 
-                await websocket.send_text("서버에서 보낸 메시지: " + message)  # 서버에서 메시지 전송
+            flag = True
+
+            while (flag):
+                res, flag = self.bot.fun3(message)
+                await websocket.send_text(res)  # 서버에서 메시지 전송
+
+                message = await websocket.receive_text()
+
+            flag = True
+            while (flag):
+                res, flag = self.bot.fun4()
+                await websocket.send_text(res)
+
+            self.controller.find_data_from_bot()
         
         # 되찾기
         # 본인인증이 필요함
-        @self.app.get('/find')
-        async def return_data():
-            result = self.controller.find()  #사진 path가 return된다. 
-            if result !=False:
-                return FileResponse(result,media_type="image/jpeg")  #file_Response를 통해서사진 출력
-            #실제로는 result는 사진 데이터? 가 와야함 
-            else:
-                return {"messages":"찾는 데이터가 없음 에 따른 출력 ...추후 구현"}
+        #@self.app.get('/find')
+        #async def return_data():
+            #result = self.controller.find()  #사진 path가 return된다. 
+            #if result !=False:
+                #return FileResponse(result,media_type="image/jpeg")  #file_Response를 통해서사진 출력
+            ##실제로는 result는 사진 데이터? 가 와야함 
+            #else:
+                #return {"messages":"찾는 데이터가 없음 에 따른 출력 ...추후 구현"}
+
+        # 되찾기
+        # 본인인증이 필요함
 
         # 본인인증이 필요함
+        @self.app.get('/getImage')
+        async def return_data():
+            path = self.controller.get_image_data()
+            with open(path, "rb") as image_file:
+                image_data = base64.b64encode(image_file.read()).decode('utf-8')
+            
+            return {"image_data": image_data}
+
         @self.app.get('/getItem')
         async def return_data():
-            result = self.controller.getItem()  #사진 path가 return된다. 
+            result = self.controller.get_item_data()
             return result
         
         # 잘못된 진입 처리

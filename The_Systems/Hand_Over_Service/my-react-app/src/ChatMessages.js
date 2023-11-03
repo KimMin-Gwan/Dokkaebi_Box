@@ -80,7 +80,7 @@ import ItemPage from './ItemPage';
 //import resetPageAndRunItemPage from 'ResetPageAndRunItemPage'
 
 function ChatMessages() {
-  const itit_txt = {text : "어떤 물건을 찾으러 오셨나요?(스마트폰/지갑/기타)(What do you want to find?)(smartphone/wallet/etc)", type : 'server-message'}
+  const itit_txt = {text : "어떤 물건을 맡기러 오셨나요?(스마트폰/지갑/기타)(What do you want to leave?)(smartphone/wallet/etc)", type : 'server-message'}
   const [messages, setMessages] = useState([itit_txt]);
   const [newMessage, setNewMessage] = useState('');
   const [socket, setSocket] = useState(null);
@@ -96,7 +96,7 @@ function ChatMessages() {
 
   newSocket.onmessage = (event) => {
   // 메시지가 '찾았다'인 경우 초기화하고 ItemPage 함수 실행
-    if (event.data === '도깨비박스가 열렸습니다. 물건을 찾은 뒤 박스를 닫아주세요.\n마음이 모이면 서울이 됩니다. Seoul, my soul') {
+    if (event.data === '감사합니다. 도깨비박스가 물건을 잘 보관할게요.\n마음이 모이면 서울이 됩니다. Seoul, my soul') {
       setShowTitleAndButton(false);
       newSocket.close();
     }

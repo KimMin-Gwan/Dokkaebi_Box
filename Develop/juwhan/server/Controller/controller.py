@@ -33,6 +33,25 @@ class Web_Controller:
 
         return final_data  #이미지가 저장되어있는 경로를 return한다.
     
+    def get_bot(self):
+        self.chat_bot = dokkaebi_ChatBot_Find(self.find_data_find)
+        return
+    
+    def get_image_data(self):
+        image_path = self.find_data_find[0][0]['path']
+        return image_path
+
+    def get_item_data(self):
+        result = self.find_data_find[0][0]
+        result = result.pop('path')
+        return result
+
+    
+    def find_data_from_bot(self):
+        self.find_data_find = self.chat_bot_find.dokkaebi_data
+        return
+        
+    
 
 
 class Hand_Over():

@@ -1,14 +1,10 @@
+from ChatBot import *
+from DBMS import *
+from ChatBot.ChatBotData import *
 from constant import *
-from flask import Flask, request
 import math
 from datetime import datetime
 import mpu
-import numpy as np
-from DBMS import *
-from ChatBot.ChatBotData import *
-from ChatBot import *
-
-
 class Web_Controller:
     def __init__(self, model,info):
         self.model = model 
@@ -28,13 +24,41 @@ class Web_Controller:
         manager.run_hand_over()  #handover 함수 실행  
 
     def find(self): 
-        self.chat_bot_find=dokkaebi_ChatBot_Find(self.find_data_find)
-        self.find_data_find=self.chat_bot_find.runChatBot()
-        find_manager=Find(self.find_data_find)
+        #self.chat_bot_find=dokkaebi_ChatBot_Find(self.find_data_find)
+        #self.find_data_find=self.chat_bot_find.runChatBot()
+        find_manager=Find(self.chat_bot.dokkaebi_data)
         final_data=find_manager.find_data_base() #최종 데이터 추후 작업은 이어서 예정
         #시나리오 작성 예시 ...... g
 
         return final_data  #이미지가 저장되어있는 경로를 return한다.
+    
+    def get_bot(self):
+        self.chat_bot = dokkaebi_ChatBot_Find(self.find_data_find)
+        return self.chat_bot
+    
+    def get_image_data(self):
+        image_path = self.find_data_find[0][0]['path']
+        return image_path
+
+    def get_item_data(self):
+        return_dict = {}
+        result = self.find_data_find[0][0]
+        return_dict['losttime'] = result['losttime']
+        return_dict['date'] = result['date']
+        return_dict['lng'] = result['lng']
+        return_dict['let'] = result['let']
+        return_dict['lostplace'] = result['lostplace']
+        return_dict['classification'] = result['classification']
+        #result = result.pop('path')
+        return return_dict
+
+    
+    def find_data_from_bot(self):
+        #self.find_data_find = self.chat_bot_find.dokkaebi_data
+        self.find_data_find = self.find()
+        print(self.find_data_find[0][0])
+        return self.find_data_find
+        
     
 
 
@@ -145,39 +169,8 @@ class Find():  #Find 관련 함수 구현 예정
 
 
 
-
-class UDP:
-
-    def __init__(self,info):
-        self.socket=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-        self.socket.bind((UDP_IP,UDP_PORT))
-        self.info=info
-        self.picture=b''
-        self.path=SAVE_IMAGE_PATH
-        self.save_path=f"{SAVE_IMAGE_PATH}"
-        self.QRPASSORD=""
-        self.qury_data={}
-
-
-    def save_picture(self):  #사진 저장 함수
-        image_stram=io.BytesIO(self.picture)
-        image=Image.open(image_stram)
-        image.save(self.save_path+str(self.info.get_img_num())+".jpg")
-        self.info.set_img_num()
+                
         
-    def get_imge_path(self):
-        self.qury_data["path"]=self.save_path  #이미지 경로 저장
-    
-        
-    def recevie_data(self):
-        self.picture=b''
-        while True:
-            data,addr=self.socket.recvfrom(MAX_SEND_BYTES)
-            if data == END_FLAG:
-                break 
-            self.picture+=data
             
-    def capture_image(self):
-        self.recevie_data()
-        self.save_picture()
-        
+             
+            
