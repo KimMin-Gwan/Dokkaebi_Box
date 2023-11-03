@@ -13,7 +13,7 @@ class dokkaebi_Raspberry:
         self.dokkaebi_Rasp_Magnetic = dokkaebi_MagneticSensor(self.dokkaebi_Rasp_Cam, self.dokkaebi_Rasp_Servo)
 
     def run_dokkaebi_Raspberry(self):
-        dokkaebi_RaspberryPI = dokkaebi_Raspberry()
-        dokkaebi_RaspberryPI.dokkaebi_Rasp_Magnetic.runMagneticSensor()
+        
+        self.dokkaebi_Rasp_Magnetic.runMagneticSensor()
 
 
