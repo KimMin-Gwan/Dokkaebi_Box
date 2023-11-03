@@ -13,7 +13,7 @@
 import RPi.GPIO as GPIO
 import time
 
-from ServoConstant import *
+from dokkaebi_Servo.ServoConstant import *
 
 
 class dokkaebi_Servo:
