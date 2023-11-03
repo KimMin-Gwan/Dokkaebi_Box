@@ -13,8 +13,8 @@ class dokkaebi_Raspberry:
         self.dokkaebi_Rasp_Magnetic = dokkaebi_MagneticSensor(self.dokkaebi_Rasp_Cam, self.dokkaebi_Rasp_Servo)
 
     def run_dokkaebi_Raspberry(self):
-        qrread_thread=threading.Thread(target=self.dokkaebi_Rasp_QRReader.runQRReader,args="")
-        mag_thread=threading.Thread(target=self.dokkaebi_Rasp_Magnetic.runMagneticSensor,args="")
+        qrread_thread=threading.Thread(target=self.dokkaebi_Rasp_QRReader.runQRReader)
+        mag_thread=threading.Thread(target=self.dokkaebi_Rasp_Magnetic.runMagneticSensor)
         qrread_thread.start()
         mag_thread.start()
  
