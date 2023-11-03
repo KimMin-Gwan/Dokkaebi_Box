@@ -21,7 +21,8 @@ class dokkaebi_MagneticSensor:
         self.dokkaebi_Rasp_Cam = dokkaebi_Rasp_Cam
         self.dokkaebi_Rasp_Servo = dokkaebi_Rasp_Servo
         GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(MAGNETIC_DEFAULT_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        #GPIO.setup(MAGNETIC_DEFAULT_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(MAGNETIC_DEFAULT_PIN, GPIO.IN)
         self.magneticDoorState = False # False(닫힘)/True(열림)
 
     def setMagnetic_open(self):
@@ -36,11 +37,24 @@ class dokkaebi_MagneticSensor:
     def runMagneticSensor(self):
         
         while True:
-            if GPIO.wait_for_edge(MAGNETIC_DEFAULT_PIN, GPIO.FALLING, bouncetime=200) == MAGNETIC_DEFAULT_PIN:
+            print(1)
+            if GPIO.wait_for_edge(MAGNETIC_DEFAULT_PIN, GPIO.RISING, bouncetime=300) == MAGNETIC_DEFAULT_PIN:
                 self.setMagnetic_close()
                 self.dokkaebi_Rasp_Cam.run_Camera()
                 self.dokkaebi_Rasp_Servo.closeDoor()
                 print("SYSTEM MESSAGE::The door closed")
+            if GPIO.wait_for_edge(MAGNETIC_DEFAULT_PIN, GPIO.FALLING, bouncetime=300) == MAGNETIC_DEFAULT_PIN:
+                self.dokkaebi_Rasp_Servo.openDoor()
+                print("SYSTEM MESSAGE::The door opened")
 
+        #while True:
+        #    if GPIO.input(MAGNETIC_DEFAULT_PIN) == GPIO.HIGH:
+        #        self.setMagnetic_close()
+        #        self.dokkaebi_Rasp_Cam.run_Camera()
+        #        self.dokkaebi_Rasp_Servo.closeDoor()
+        #        print("SYSTEM MESSAGE::The door closed")
+        #    elif GPIO.input(MAGNETIC_DEFAULT_PIN) == GPIO.LOW:
+        #        self.dokkaebi_Rasp_Servo.openDoor()
+        #        print("SYSTEM MESSAGE::The door opened")
 
 
