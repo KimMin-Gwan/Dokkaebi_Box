@@ -81,7 +81,7 @@ class dokkaebi_ChatBot_Find:
                         day = enResponse[0]
                         hour = enResponse[2]
                         minute = enResponse[3]
-                        dokkaebi_response_str = "You lost it at " + day + "/" + month + " " + hour + ":" + minute + ", Right?"
+                        dokkaebi_response_str = "You lost it at " + day + "/" + month + " " + hour + ":" + minute +", Right?"
                     if len(month) == 1:
                         month = "0" + month
                     if len(day) == 1:
@@ -95,7 +95,7 @@ class dokkaebi_ChatBot_Find:
                     self.step += 1
                 self.rspFlag = 0
                 return dokkaebi_response_str
-            return '무슨 말인지 모르겠어요' if self.lang == "Ko" else "Sorry, I can't understand"
+        return '무슨 말인지 모르겠어요' if self.lang == "Ko" else "Sorry, I can't understand"
 
     def geocoding(self, address):
         geolocoder = Nominatim(user_agent='South Korea', timeout=None)
@@ -109,7 +109,7 @@ class dokkaebi_ChatBot_Find:
             if self.step == 1:
                 while True:
                     print("어떤 물건을 찾으러 오셨나요?(스마트폰/지갑/기타)(What do you want to find?)(smartphone/wallet/etc)")
-                    userResponse = input('입력 : ')
+                    userResponse = input('입력(Input) : ')
                     userResponse = self.Okt.morphs(userResponse)
                     if len(userResponse) > 0:
                         if userResponse[0].encode().isalpha():
@@ -125,7 +125,7 @@ class dokkaebi_ChatBot_Find:
             elif self.step == 2:
                 while True:
                     print("물건을 언제 분실하셨나요? ex) 11월 3일 13시 30분"if self.lang == "Ko"else "When did you lost the item? ex) dd/mm 15:30")
-                    userResponse = input('입력 : ')
+                    userResponse = input('입력(Input) : ')
                     chatBotResponse = self.chat(userResponse)
                     print(chatBotResponse)
                     if self.step != 2:
@@ -134,7 +134,7 @@ class dokkaebi_ChatBot_Find:
                 print("물건을 어디에서 잃어버리셨나요?"if self.lang == "Ko" else "Where did you lost it?")
                 while True:
                     dokkaebi_Response = '무슨말인지 잘 모르겠어요'if self.lang == "Ko" else "Sorry, I can't understand"
-                    userResponse = input('입력 : ')
+                    userResponse = input('입력(Input) : ')
                     if self.lang == "Ko":
                         nlpResult = self.Hannanum.nouns(userResponse)
                         for rst in nlpResult:
@@ -147,8 +147,7 @@ class dokkaebi_ChatBot_Find:
                                     self.dokkaebi_data.lostplace = rst
                                     self.dokkaebi_data.lat = crd['lat']
                                     self.dokkaebi_data.lng = crd['lng']
-                                    if self.lang == "Ko":
-                                        print('{}을(를) 습득하신 곳은 {} 이군요.'.format(self.dokkaebi_data.lostItem,
+                                    print('{}을(를) 분실하신 곳은 {} 이군요.'.format(self.dokkaebi_data.lostItem,
                                                                               self.dokkaebi_data.lostplace))
                                     break
                                 dokkaebi_Response = '입력하신 곳은 도깨비박스 서비스 지역이 아닙니다.' if self.lang == "Ko" else "The location you entered is not a service area."
