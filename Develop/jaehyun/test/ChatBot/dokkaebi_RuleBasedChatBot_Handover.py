@@ -9,21 +9,25 @@
 * ==========================================================================
 * Author    		Date		    Version		History
 * JH KIM            2023.11.03		v1.00		First Write
+* JH KIM            2023.11.03      v1.10       Update geopy
 """
 
 import pandas as pd
 from ChatBotData import *
-from konlpy.tag import Okt
+from konlpy.tag import Okt, Hannanum
+from geopy.geocoders import Nominatim
 import os
 
 class dokkaebi_ChatBot_Handover:
     def __init__(self, data):
         self.Okt = Okt()
+        self.Hannanum = Hannanum()
         self.dokkaebi_data = data
         self.chatbot_data = pd.read_excel("chatbot_data_handover.xlsx")
         self.chat_dic = {}
         self.initChatBot()
         self.step = 1
+        self.flag = 1   # 0 (정상 입력)/ 1(잘못된 입력)
 
     def initChatBot(self):
         # rule의 데이터를 split하여 list형태로 변환 후, index값과 함께 dictionary 형태로 저장
@@ -77,6 +81,13 @@ class dokkaebi_ChatBot_Handover:
                 return dokkaebi_response_str
         return '무슨 말인지 모르겠어요'
 
+    def geocoding(self, address):
+        geolocoder = Nominatim(user_agent='South Korea', timeout=None)
+        geo = geolocoder.geocode(address)
+        crd = {"lat": str(geo.latitude), "lng": str(geo.longitude)}
+
+        return crd
+
     def runChatBot(self):
         print("Seoul, my soul. 안녕하세요? 한강 도깨비 박스입니다.")
         while True:
@@ -96,15 +107,32 @@ class dokkaebi_ChatBot_Handover:
                     print('도깨비박스 :', chatBotResponse)
                     if self.step != 2:
                         break
-            #elif self.step == 3:
-            #    print("물건을 어디에서 주우셨나요?")
-            #    while True:
-            #        userResponse = input('입력 : ')
-            #        chatBotResponse = self.chat(userResponse)
-            #        print('도깨비박스 : ', chatBotResponse)
-            #        if self.step != 3:
-            #            break
             elif self.step == 3:
+                print("물건을 어디에서 주우셨나요?")
+                while True:
+                    userResponse = input('입력 : ')
+                    nlpResult = self.Hannanum.nouns(userResponse)
+                    for rst in nlpResult:
+                        try:
+                            crd = self.geocoding(rst)
+                            self.flag = 0
+                            self.dokkaebi_data.lostplace = rst
+                            print('{}을 습득하신 곳은 {} 이군요.'.format(self.dokkaebi_data.classification, self.dokkaebi_data.lostplace))
+                            break
+                        except:
+                            continue
+                    if self.flag == 0:
+                        self.step += 1
+                        break
+                    # crd = geocoding("서울역")
+                    # crd = geocoding("동대구역")
+                    # crd = geocoding("영남대")
+
+                    chatBotResponse = self.chat(userResponse)
+                    print('도깨비박스 : ', chatBotResponse)
+                    if self.step != 3:
+                        break
+            elif self.step == 4:
                 print("감사합니다. 도깨비 박스가 물건을 잘 보관할게요.")
                 print("마음이 모이면 서울이 됩니다. Seoul, my soul")
                 return self.dokkaebi_data
