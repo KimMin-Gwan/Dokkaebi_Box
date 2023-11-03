@@ -63,7 +63,7 @@ class dokkaebi_ChatBot_Find:
                     month = nlp_result[0][:nlp_result[0].rfind('월')]
                     day = nlp_result[1][:nlp_result[1].rfind('일')]
                     hour = nlp_result[2][:nlp_result[2].rfind('시')]
-                    minute = hour = nlp_result[3][:nlp_result[3].rfind('분')]
+                    minute =  nlp_result[3][:nlp_result[3].rfind('분')]
                     dokkaebi_response_str = month+"월 " +day+"일 " +hour +"시 "+minute+"분에 분실하셨군요"
                     if len(month) == 1:
                         month = "0" + month
@@ -117,7 +117,6 @@ class dokkaebi_ChatBot_Find:
                     nlpResult = self.Hannanum.nouns(userResponse)
                     for rst in nlpResult:
                         try:
-
                             crd = self.geocoding(rst)
                             self.geopyFlag = 0
                             self.dokkaebi_data.lostplace = rst
@@ -135,6 +134,7 @@ class dokkaebi_ChatBot_Find:
             elif self.step == 4:
                 print("도깨비 박스가 열렸습니다. 물건을 찾은 뒤 박스를 닫아주세요.")
                 print("마음이 모이면 서울이 됩니다. Seoul, my soul")
+                print(self.dokkaebi_data.lat)
                 return self.dokkaebi_data
 
 
