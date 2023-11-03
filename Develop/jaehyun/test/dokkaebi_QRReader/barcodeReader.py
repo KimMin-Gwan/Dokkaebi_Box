@@ -63,6 +63,7 @@ class dokkaebi_BarcodeReader:
                 barcodeData = barcode.data.decode("utf-8")  # QR data decode
                 if len(self.db.find_data(barcodeData)) !=0:
                     self.dokkaebi_Servo.openDoor()
+                    print("맞습니다 문 열리겠습니다.")
                 self.info.QRcodeData = barcodeData
                 barcodeType = barcode.type  # barcode type(barcode, qrcode)
                 text = "{} ({})".format(barcodeData, barcodeType)
