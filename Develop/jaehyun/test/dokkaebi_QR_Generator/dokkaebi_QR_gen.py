@@ -1,9 +1,13 @@
 import qrcode
 
-qr_data = 'yu.ac.kr'
+class dokkaebi_QR_generator:
+    def __init__(self):
+        self.qr_data = None
+        self.qr_img = None
+        self.savePath = None
 
-qr_img = qrcode.make(qr_data)    #qrcode.make로 이미지를 만들어 qr_img 변수에 저장합니다.
-
-save_path = qr_data + '.png'        #save_path에 저장될 경로를 저장합니다.
-
-qr_img.save(save_path)
+    def genQRCode(self,data):
+        self.qr_data = data
+        self.qr_img = qrcode.make(self.qr_data)
+        self.savePath = self.qr_data +'.png'
+        self.qr_img.save(self.savePath)
