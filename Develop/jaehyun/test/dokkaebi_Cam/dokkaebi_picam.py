@@ -3,7 +3,7 @@ from picamera2 import Picamera2
 import cv2
 import time
 from PIL import Image
-from dokkaebi_Cam_Constant import *
+from dokkaebi_Cam.dokkaebi_Cam_Constant import *
 
 
 class clsdokkaebi_Box_Cam:
