@@ -28,6 +28,7 @@ class dokkaebi_ChatBot_Handover:
         self.initChatBot()
         self.step = 1
         self.geopyFlag = 1   # 0 (정상 입력)/ 1(잘못된 입력)
+        self.rspFlag = 1  # 챗봇이 정확하게 이해한 경우
 
     def initChatBot(self):
         # rule의 데이터를 split하여 list형태로 변환 후, index값과 함께 dictionary 형태로 저장
@@ -78,6 +79,7 @@ class dokkaebi_ChatBot_Handover:
                     self.dokkaebi_data.Date = month+day
                     self.dokkaebi_data.lostTime = hour+minute
                     self.step+=1
+                self.rspFlag = 0
                 return dokkaebi_response_str
         return '무슨 말인지 모르겠어요'
 
@@ -93,16 +95,20 @@ class dokkaebi_ChatBot_Handover:
         while True:
             if self.step == 1:
                 while True:
-                    print("도깨비 박스 : 어떤 물건을 맡기러 오셨나요?(스마트폰/지갑/기타)")
+                    print("어떤 물건을 맡기러 오셨나요?(스마트폰/지갑/기타)")
                     userResponse = input('입력 : ')
-                    self.dokkaebi_data.lostItem = userResponse
-                    chatBotResponse = self.chat(userResponse)
-                    print('도깨비박스 :', chatBotResponse)
+                    userResponse = self.Okt.morphs(userResponse)
+                    for rsp in userResponse:
+                        chatBotResponse = self.chat(rsp)
+                        if self.rspFlag == 0:
+                            self.dokkaebi_data.lostItem = rsp
+                            break
+                    print(chatBotResponse)
                     if self.step != 1:
                         break
             elif self.step == 2:
                 while True:
-                    print("도깨비박스 : 물건을 언제 습득하셨나요? ex) 11월 3일 13시 30분")
+                    print("물건을 언제 습득하셨나요? ex) 11월 3일 13시 30분")
                     userResponse = input('입력 : ')
                     chatBotResponse = self.chat(userResponse)
                     print('도깨비박스 :', chatBotResponse)
@@ -118,7 +124,7 @@ class dokkaebi_ChatBot_Handover:
                             crd = self.geocoding(rst)
                             self.geopyFlag = 0
                             self.dokkaebi_data.lostplace = rst
-                            print('도깨비박스 : {}을 습득하신 곳은 {} 이군요.'.format(self.dokkaebi_data.lostItem, self.dokkaebi_data.lostplace))
+                            print('{}을(를) 습득하신 곳은 {} 이군요.'.format(self.dokkaebi_data.lostItem, self.dokkaebi_data.lostplace))
                             break
                         except:
                             continue
@@ -129,7 +135,7 @@ class dokkaebi_ChatBot_Handover:
                     # crd = geocoding("동대구역")
                     # crd = geocoding("영남대")
 
-                    print('도깨비박스 : 무슨말인지 잘 모르겠어요')
+                    print('무슨말인지 잘 모르겠어요')
                     if self.step != 3:
                         break
             elif self.step == 4:

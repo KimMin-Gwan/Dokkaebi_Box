@@ -8,9 +8,9 @@ def geocoding(address):
     
     return crd
 
-crd = geocoding("dmc첨단산업센터")
+
 try:
-    crd = geocoding("첨단산업센터")
+    crd = geocoding('우리')
     print(crd)
 except:
     print('주소가 잘못됨')
