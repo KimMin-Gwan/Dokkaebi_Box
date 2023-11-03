@@ -32,6 +32,7 @@ class clsMagneticSensor:
         return
 
     def runMagneticSensor(self):
+        Ser
         while True:
             print(1)
             if GPIO.wait_for_edge(MAGNETIC_DEFAULT_PIN, GPIO.FALLING, bouncetime=200) == MAGNETIC_DEFAULT_PIN:
