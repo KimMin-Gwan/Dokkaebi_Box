@@ -109,7 +109,7 @@ class dokkaebi_ChatBot_Handover:
             if self.step == 1:
                 while True:
                     print("어떤 물건을 맡기러 오셨나요?(스마트폰/지갑/기타)(What do you want to leave?)(smartphone/wallet/etc)")
-                    userResponse = input('입력(Input) : ')
+                    userResponse = input('입력(Input) : ').replace('이요', "")
                     userResponse = self.Okt.morphs(userResponse)
                     if len(userResponse) > 0:
                         if userResponse[0].encode().isalpha():
@@ -127,6 +127,7 @@ class dokkaebi_ChatBot_Handover:
                     print(
                         "물건을 언제 습득하셨나요? ex) 11월 3일 13시 30분" if self.lang == "Ko" else "When did you acquire the item? ex) dd/mm 15:30")
                     userResponse = input('입력(Input) : ')
+                    userResponse = userResponse[:userResponse.rfind('분')+1]
                     # if self.lang == "En":
                     #    EnResponse = re.split('[/: ]', userResponse)
 
@@ -139,6 +140,7 @@ class dokkaebi_ChatBot_Handover:
                 while True:
                     dokkaebi_Response = '무슨말인지 잘 모르겠어요' if self.lang == "Ko" else "Sorry, I can't understand"
                     userResponse = input('입력(Input) : ')
+                    userResponse = userResponse.replace('이요',"")
                     if self.lang == "Ko":
                         nlpResult = self.Hannanum.nouns(userResponse)
                         for rst in nlpResult:

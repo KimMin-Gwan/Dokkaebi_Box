@@ -10,7 +10,7 @@ def geocoding(address):
 
 
 try:
-    crd = geocoding('cellphone')
+    crd = geocoding('여의나루')
     print(crd['lat'])
     print(crd['lng'])
 except:
