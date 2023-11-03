@@ -61,7 +61,7 @@ class dokkaebi_BarcodeReader:
                 (x, y, w, h) = barcode.rect  # QR코드 경계 추출
                 cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 0, 255), 2)  # cv2 bbox 생성
                 barcodeData = barcode.data.decode("utf-8")  # QR data decode
-                if len(self.db.find_data(barcodeData)) !=0:
+                if len(self.db.find_data({"password":barcodeData})) !=0:
                     self.dokkaebi_Servo.openDoor()
                     print("맞습니다 문 열리겠습니다.")
                 self.info.QRcodeData = barcodeData
