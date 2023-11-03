@@ -118,6 +118,7 @@ class dokkaebi_ChatBot_Handover:
             elif self.step == 3:
                 print("물건을 어디에서 주우셨나요?")
                 while True:
+                    dokkaebi_Response = '무슨말인지 잘 모르겠어요'
                     userResponse = input('입력 : ')
                     nlpResult = self.Hannanum.nouns(userResponse)
                     for rst in nlpResult:
@@ -130,7 +131,7 @@ class dokkaebi_ChatBot_Handover:
                                 self.dokkaebi_data.lng = crd['lng']
                                 print('{}을(를) 습득하신 곳은 {} 이군요.'.format(self.dokkaebi_data.lostItem, self.dokkaebi_data.lostplace))
                                 break
-                            print('입력하는 곳은 서비스 지역 입니다.')
+                            dokkaebi_Response= '입력하신 곳은 도깨비박스 서비스 지역이 아닙니다.'
                         except:
                             continue
                     if self.geopyFlag == 0:
@@ -140,7 +141,7 @@ class dokkaebi_ChatBot_Handover:
                     # crd = geocoding("동대구역")
                     # crd = geocoding("영남대")
 
-                    print('무슨말인지 잘 모르겠어요')
+                    print(dokkaebi_Response)
                     if self.step != 3:
                         break
             elif self.step == 4:

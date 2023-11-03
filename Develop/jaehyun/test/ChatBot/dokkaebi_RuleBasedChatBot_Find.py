@@ -14,6 +14,7 @@ import pandas as pd
 from ChatBotData import *
 from konlpy.tag import Okt, Hannanum
 from geopy.geocoders import Nominatim
+from Constant import *
 class dokkaebi_ChatBot_Find:
     def __init__(self, data):
         self.Okt = Okt()
@@ -63,7 +64,7 @@ class dokkaebi_ChatBot_Find:
                     month = nlp_result[0][:nlp_result[0].rfind('월')]
                     day = nlp_result[1][:nlp_result[1].rfind('일')]
                     hour = nlp_result[2][:nlp_result[2].rfind('시')]
-                    minute =  nlp_result[3][:nlp_result[3].rfind('분')]
+                    minute = nlp_result[3][:nlp_result[3].rfind('분')]
                     dokkaebi_response_str = month+"월 " +day+"일 " +hour +"시 "+minute+"분에 분실하셨군요"
                     if len(month) == 1:
                         month = "0" + month
@@ -113,28 +114,39 @@ class dokkaebi_ChatBot_Find:
             elif self.step == 3:
                 print("물건을 어디에서 잃어버리셨나요?")
                 while True:
+                    dokkaebi_Response = '무슨말인지 잘 모르겠어요'
                     userResponse = input('입력 : ')
                     nlpResult = self.Hannanum.nouns(userResponse)
                     for rst in nlpResult:
                         try:
                             crd = self.geocoding(rst)
-                            self.geopyFlag = 0
-                            self.dokkaebi_data.lostplace = rst
-                            print('{}을 분실하신 곳은 {} 이군요.'.format(self.dokkaebi_data.lostItem,
-                                                               self.dokkaebi_data.lostplace))
-                            break
+                            if float(crd['lat']) >= SEOULLOWERBOUNDARY and float(
+                                    crd['lat']) <= SEOULUPPERBOUNDARY and float(
+                                    crd['lng']) <= SEOULRIGHTBOUNDARY and float(crd['lng']) >= SEOULLEFTBOUNDARY:
+                                self.geopyFlag = 0
+                                self.dokkaebi_data.lostplace = rst
+                                self.dokkaebi_data.lat = crd['lat']
+                                self.dokkaebi_data.lng = crd['lng']
+                                print('{}을(를) 분실하신 곳은 {} 이군요.'.format(self.dokkaebi_data.lostItem,
+                                                                      self.dokkaebi_data.lostplace))
+                                break
+                            dokkaebi_Response = '입력하신 곳은 도깨비박스 서비스 지역이 아닙니다.'
                         except:
                             continue
                     if self.geopyFlag == 0:
                         self.step += 1
                         break
-                    print('무슨 말인지 이해하지 못했어요')
+                    # crd = geocoding("서울역")
+                    # crd = geocoding("동대구역")
+                    # crd = geocoding("영남대")
+
+                    print(dokkaebi_Response)
                     if self.step != 3:
                         break
             elif self.step == 4:
                 print("도깨비 박스가 열렸습니다. 물건을 찾은 뒤 박스를 닫아주세요.")
                 print("마음이 모이면 서울이 됩니다. Seoul, my soul")
-                print(self.dokkaebi_data.lat)
+
                 return self.dokkaebi_data
 
 
