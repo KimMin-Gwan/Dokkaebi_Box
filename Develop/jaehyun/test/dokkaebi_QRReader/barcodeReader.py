@@ -19,11 +19,14 @@ import imutils
 import time
 import cv2
 
+
 class dokkaebi_BarcodeReader:
-    def __init__(self):
+    def __init__(self, dokkaebi_Servo):
+        self.dokkaebi_Servo = dokkaebi_Servo
         # construct the argument parser and parse the arguments
         self.ap = argparse.ArgumentParser()
-        self.ap.add_argument("-o", "--output", type=str, default="barcodes.csv", help="path to output CSV file containing barcodes")
+        self.ap.add_argument("-o", "--output", type=str, default="barcodes.csv",
+                             help="path to output CSV file containing barcodes")
         self.args = vars(self.ap.parse_args())
         ### From there, let’s initialize our video stream and open our CSV file:
         # initialize the video stream and allow the camera sensor to warm up
@@ -107,7 +110,7 @@ class dokkaebi_BarcodeReader:
         cv2.destroyAllWindows()
         self.vs.stop()
 
+
 if __name__ == "__main__":
     QRReader = dokkaebi_BarcodeReader()
     QRReader.runQRReader()
-
