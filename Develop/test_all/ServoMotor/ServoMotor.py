@@ -1,7 +1,7 @@
 """
 * Project : 2023 Seoul AIOT Hackathon
 * Program Purpose and Features :
-* - class ServoMotor
+* - class dokkaebi_Servo
 * Author : JH KIM
 * First Write Date : 2023.11.03
 * ==========================================================================

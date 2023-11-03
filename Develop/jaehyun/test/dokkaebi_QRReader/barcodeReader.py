@@ -1,7 +1,7 @@
 """
 * Project : 2023 Seoul AIOT Hackathon
 * Program Purpose and Features :
-* - class ServoMotor constant
+* - class dokkaebi_Servo constant
 * Author : JH KIM
 * First Write Date : 2023.11.03
 * ==========================================================================
@@ -19,10 +19,8 @@ import imutils
 import time
 import cv2
 
-class clsBarcodeReader:
-    def __init__(self, info):
-        self.info = info
-
+class dokkaebi_BarcodeReader:
+    def __init__(self):
         # construct the argument parser and parse the arguments
         self.ap = argparse.ArgumentParser()
         self.ap.add_argument("-o", "--output", type=str, default="barcodes.csv", help="path to output CSV file containing barcodes")
@@ -110,6 +108,6 @@ class clsBarcodeReader:
         self.vs.stop()
 
 if __name__ == "__main__":
-    QRReader = clsBarcodeReader()
+    QRReader = dokkaebi_BarcodeReader()
     QRReader.runQRReader()
 
