@@ -4,7 +4,7 @@ from dokkaebi_Cam import *
 from dokkaebi_QRReader import *
 from dokkaebi_MagneticSensor import *
 from dokkaebi_Servo import *
-
+import threading
 class dokkaebi_Raspberry:
     def __init__(self):
         self.dokkaebi_Rasp_Cam = clsdokkaebi_Box_Cam()
@@ -13,7 +13,10 @@ class dokkaebi_Raspberry:
         self.dokkaebi_Rasp_Magnetic = dokkaebi_MagneticSensor(self.dokkaebi_Rasp_Cam, self.dokkaebi_Rasp_Servo)
 
     def run_dokkaebi_Raspberry(self):
-        
-        self.dokkaebi_Rasp_Magnetic.runMagneticSensor()
+        qrread_thread=threading.Thread(target=self.dokkaebi_Rasp_QRReader.runQRReader,args="")
+        mag_thread=threading.Thread(target=self.dokkaebi_Rasp_Magnetic.runMagneticSensor,args="")
+        qrread_thread.start()
+        mag_thread.start()
+ 
 
 
