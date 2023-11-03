@@ -7,7 +7,7 @@ from dokkaebi_Servo import *
 
 class dokkaebi_Raspberry:
     def __init__(self):
-        self.dokkaebi_Rasp_Cam = dokkaebi_Box_Cam()
+        self.dokkaebi_Rasp_Cam = clsdokkaebi_Box_Cam()
         self.dokkaebi_Rasp_Servo = dokkaebi_Servo()
         self.dokkaebi_Rasp_QRReader = dokkaebi_BarcodeReader(self.dokkaebi_Rasp_Servo)
         self.dokkaebi_Rasp_Magnetic = dokkaebi_MagneticSensor(self.dokkaebi_Rasp_Cam, self.dokkaebi_Rasp_Servo)

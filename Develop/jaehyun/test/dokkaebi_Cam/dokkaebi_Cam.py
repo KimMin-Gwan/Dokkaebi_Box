@@ -6,7 +6,7 @@ from PIL import Image
 from dokkaebi_Cam_Constant import *
 
 
-class dokkaebi_Box_Cam:
+class clsdokkaebi_Box_Cam:
     def __init__(self):
         self.picam2 = Picamera2()
         self.picam2.preview_configuration.main.size = (480, 640)
