@@ -11,4 +11,4 @@
 * JH KIM            2023.11.03		v1.00		First Write
 """
 from dokkaebi_Servo.ServoMotor import *
-from ServoConstant import *
+from dokkaebi_Servo.ServoConstant import *
