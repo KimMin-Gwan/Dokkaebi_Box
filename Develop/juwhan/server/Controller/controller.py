@@ -5,6 +5,7 @@ from Controller.constant import *
 from Controller.UDP_Con import *
 import math
 from datetime import datetime
+import mpu
 class Web_Controller:
     def __init__(self, model,info):
         self.model = model 
@@ -45,7 +46,7 @@ class Hand_Over():
     def input_data_base(self):
         self.qury_data[CLASSIFICATION]=self.hand_over_data.classification  #종류
         self.qury_data[LOSTPLACE]=self.hand_over_data.lostplace  #잃어버린 위치
-        self.qury_data[PATH]= SAVE_IMAGE_PATH+self.info.get_imge_num()+".jpg"  #이미지 save_path
+        self.qury_data[PATH]= SAVE_IMAGE_PATH+str(self.info.get_img_num())+".jpg"  #이미지 save_path
         self.qury_data[LOSTTIME]=self.hand_over_data.lostTime  #잃어버린 시간
         self.qury_data[LAT]=self.hand_over_data.lat  #위도  
         self.qury_data[LNG]=self.hand_over_data.lng  #경도
@@ -85,20 +86,16 @@ class Find():  #Find 관련 함수 구현 예정
     def find_data_base(self):
         
         #1 2 순위는 항상 입력되었다 생각하고 
-        if self.data.classification !=None and self.data.Date!=None:  #분류 날짜
+        if self.data.classification !=None :  #분류 날짜
             qury_data={CLASSIFICATION:self.data.classification,DATE:self.data.Date}
 
             all_data=self.dbms.find_data(qury_data)   #data베이스에서 1 2 순위 싹다 뽑아오고
         #그다음 시간에 대해서 가장 작은 시간 범위를 찾는다.
-        if len(all_data) !=0: 
-            print(self.data.lostTime)
-            tartget_time=self.data.lostTime
-            self.seconde_data=self.find_closet_time(tartget_time,all_data)
-
-        if len(self.seconde_data):
-            pass
-
-
+        dt_temp,day_list_temp=self.find_date(self.data.lostTime,all_data)
+        self.find_result=self.find_dist(self.data,day_list_temp,dt_temp)
+        for doc in self.find_result:
+            print(doc)
+            print("====================")
 
         return self.find_result  #최종적으로 잃어버린 날짜 + 카테고리 + 시간에 대해서 찾은뒤 return해준다. 
     
@@ -121,59 +118,44 @@ class Find():  #Find 관련 함수 구현 예정
                 closet_min_data=time
         return closet_min_data 
     
-    def haversine(self,lat1, lon1, lat2, lon2):
-    # 지구 반지름 (킬로미터)
-        radius = 6371.0
-        
-        # 라디안으로 위도 경도 변환
-        lat1 = math.radians(lat1)
-        lon1 = math.radians(lon1)
-        lat2 = math.radians(lat2)
-        lon2 = math.radians(lon2)
-        
-        # Haversine 공식 계산
-        dlon = lon2 - lon1
-        dlat = lat2 - lat1
-        a = math.sin(dlat/2)**2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon/2)**2
-        c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
-        distance = radius * c
-        
-        return distance
-
-    def find_closest_points(self,target_lat,target_lng,list_data):
-        min_distance = float('inf')
-        closest_points = None
-
-        for i in range(len(list_data)):
-            lat1, lon1 = target_lat,target_lng 
-            lat2, lon2 = (list_data[i].lat,list_data[i].lng)
-            distance = self.haversine(lat1, lon1, lat2, lon2)
-
-            if distance < min_distance:
-                min_distance = distance
-                closest_points = list_data[i]
-
-        return closest_points
 
     def find_date(self,target_date,data_list):
         month_list=[0,31,28,31,30,31,30,31,31,30,31,30,31]
         now_month=datetime.today().month
         now_day=datetime.today().day
-        result_date=[]
-        #시작 날부터 오늘까지 다 보여주는것 이때 같은 날짜일때는 거리순으로 또 다시 정렬 해주는 프로그램
-        #6개월 정도 12월 10일 
-        temp_month=target_date[0:2]+6  #month
-        chk_month=[i for i in range(target_date[0:2],target_date[0:2]+6)]
-        for i in range(len(chk_month)): #시작 달월 부터 끝나는 달월 chk
-            if chk_month[i]>12:
-                chk_month[i]-=12
-        for day in range(target_date[2:4],month_list[target_date[0:2]]):  #맨첫달은 시작부터 자기달 마지막까지 chk해야하니까
+        result_date=[[],[],[],[],[],[]]
+        day_list=[]
+        day_start=1
+        day_list.append(target_date)
+        for i in range(1,6):  #총 6일을 갈껀데 만약에 달이넘어가면 그다음달로 검색해야하잖아
+            print(target_date[2:4],"   ",target_date[0:2])
+            if(int(target_date[2:4])+i) >month_list[int(target_date[0:2])]:  #즉 일수가 현재 자기 달의 마지막 일보다 많아지면
+                day_list.append(str(int(target_date[0:2])+1)+str(day_start))
+                day_start+=1
+            else:
+                day_list.append(target_date[0:2]+str(int(target_date[2:4])+1))
+
+        count_result_data=0 
+        for day in day_list:
             for i in range(len(data_list)):
-                if(data_list[i].Date==(target_date[0:2]+str(day))):
-                    result_date.append(data_list[i])
-                    del data_list[i]#재검색하지않게 하기위해서 지운다.
+                if data_list[i][DATE]==day:
+                    result_date[count_result_data].append(data_list[i])
+            count_result_data+=1
+
+        return data_list  ,day_list   #data_list 는 정렬된 데이터고 day_list는 추후 거리에 따라 정렬할때 
+    
+    def find_dist(self,target_place,day_list,data_list):
+        for i in range(6):  #총 6일에 대한 데이터에 대해서 길이에 대해서 정렬할껀데
+            if len(data_list[i]) !=0:
+                for z in range(len(data_list[i]-1)):
+                    min_idx=z
+                    for j in range(i+1,len(data_list[i])):
+                        if mpu.haversine_distance((float(data_list[j].lat),float(data_list[j].lng)),(float(target_place.lat),float(target_place.lng)))<mpu.haversine_distance((float(data_list[min_idx].lat),float(data_list[min_idx].lng)),(float(target_place.lat),float(target_place.lng))):
+                            min_idx=j
+                data_list[i][z],data_list[i][min_idx] =data_list[i][min_idx],data_list[i][z]
         
-        temp_day=target_date[2:4]  #day
+        return data_list
+
 
 
                 

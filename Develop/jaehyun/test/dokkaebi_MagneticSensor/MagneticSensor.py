@@ -34,6 +34,7 @@ class dokkaebi_MagneticSensor:
         return
 
     def runMagneticSensor(self):
+        
         while True:
             if GPIO.wait_for_edge(MAGNETIC_DEFAULT_PIN, GPIO.FALLING, bouncetime=200) == MAGNETIC_DEFAULT_PIN:
                 self.setMagnetic_close()

@@ -20,3 +20,8 @@ class Dokkaebi_Data:
         self.lostplace = None   # 사용자가 입력한 분실/습득장소(반포한강공원)
         self.lat = None # latitude 위도
         self.lng =None  # longitude 경도
+        """ 서울시 위도 경도 경계
+                  37.715133
+        126.734086  서울시  127.269311      
+                  37.413294
+        """

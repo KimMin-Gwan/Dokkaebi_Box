@@ -8,10 +8,11 @@ def geocoding(address):
     
     return crd
 
-crd = geocoding("dmc첨단산업센터")
+
 try:
-    crd = geocoding("첨단산업센터")
-    print(crd)
+    crd = geocoding('여의나루')
+    print(crd['lat'])
+    print(crd['lng'])
 except:
     print('주소가 잘못됨')
 #crd = geocoding("서울역")
