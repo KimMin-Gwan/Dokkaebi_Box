@@ -102,7 +102,87 @@ class dokkaebi_ChatBot_Handover:
         geo = geolocoder.geocode(address)
         crd = {"lat": str(geo.latitude), "lng": str(geo.longitude)}
         return crd
+    def getClassificationFromUserChat(self, usrResponse):   # 기존 step 1
+        # print("어떤 물건을 맡기러 오셨나요?(스마트폰/지갑/기타)(What do you want to leave?)(smartphone/wallet/etc)")
+        userResponse = usrResponse.replace('이요', "")
+        userResponse = self.Okt.morphs(userResponse)
+        if len(userResponse) > 0:
+            if userResponse[0].encode().isalpha():
+                self.lang = "En"
+        for rsp in userResponse:
+            chatBotResponse = self.chat(rsp)
+            if self.rspFlag == 0:
+                self.dokkaebi_data.lostItem = rsp
+                chatBotResponse += "물건을 언제 습득하셨나요? ex) 11월 3일 13시 30분" if self.lang == "Ko" else "When did you acquire the item? ex) dd/mm 15:30"
+                break
+        return chatBotResponse, self.rspFlag      # 첫번쨰 응답(스마트폰을 주우셨군요),(0(정상) or 1(알수 없는 응답))
 
+    def getDateTimeFromUserChat(self, usrResponse): # 기존 step 2
+        self.rspFlag = 1
+        # print("물건을 언제 습득하셨나요? ex) 11월 3일 13시 30분" if self.lang == "Ko" else "When did you acquire the item? ex) dd/mm 15:30")
+        #userResponse = input('입력(Input) : ')
+        userResponse = usrResponse[:usrResponse.rfind('분') + 1]
+        # if self.lang == "En":
+        #    EnResponse = re.split('[/: ]', userResponse)
+        chatBotResponse = self.chat(userResponse)
+        if self.rspFlag == 0:
+            chatBotResponse += "물건을 어디에서 주우셨나요?" if self.lang == "Ko" else "Where did you find it?"
+        return chatBotResponse, self.rspFlag
+
+    def getPlaceFromUserChat(self, usrResponse):    # 기존 step 3
+        self.rspFlag = 1
+        dokkaebi_Response = '무슨말인지 잘 모르겠어요' if self.lang == "Ko" else "Sorry, I can't understand"
+        userResponse = input('입력(Input) : ')
+        userResponse = userResponse.replace('이요', "")
+        if self.lang == "Ko":
+            nlpResult = self.Hannanum.nouns(userResponse)
+            for rst in nlpResult:
+                try:
+                    crd = self.geocoding(rst)
+                    if float(crd['lat']) >= SEOULLOWERBOUNDARY and float(
+                            crd['lat']) <= SEOULUPPERBOUNDARY and float(
+                        crd['lng']) <= SEOULRIGHTBOUNDARY and float(crd['lng']) >= SEOULLEFTBOUNDARY:
+                        self.geopyFlag = 0
+                        self.dokkaebi_data.lostplace = rst
+                        self.dokkaebi_data.lat = crd['lat']
+                        self.dokkaebi_data.lng = crd['lng']
+                        #print('{}을(를) 습득하신 곳은 {} 이군요.'.format(self.dokkaebi_data.lostItem, self.dokkaebi_data.lostplace))
+                        dokkaebi_Response = '{}을(를) 습득하신 곳은 {} 이군요.'.format(self.dokkaebi_data.lostItem, self.dokkaebi_data.lostplace)
+                        self.rspFlag = 0
+                        return dokkaebi_Response, self.rspFlag
+                    dokkaebi_Response = '입력하신 곳은 도깨비박스 서비스 지역이 아닙니다.' if self.lang == "Ko" else "The location you entered is not a service area."
+                except:
+                    continue
+        else:
+            try:
+                crd = self.geocoding(userResponse)
+                if float(crd['lat']) >= SEOULLOWERBOUNDARY and float(
+                        crd['lat']) <= SEOULUPPERBOUNDARY and float(
+                    crd['lng']) <= SEOULRIGHTBOUNDARY and float(crd['lng']) >= SEOULLEFTBOUNDARY:
+                    self.geopyFlag = 0
+                    self.dokkaebi_data.lostplace = userResponse
+                    self.dokkaebi_data.lat = crd['lat']
+                    self.dokkaebi_data.lng = crd['lng']
+                    #print('You find the {} at {}. Right?'.format(self.dokkaebi_data.lostItem,self.dokkaebi_data.lostplace))
+                    dokkaebi_Response = 'You find the {} at {}. Right?'.format(self.dokkaebi_data.lostItem,self.dokkaebi_data.lostplace)
+                    self.rspFlag = 0
+                    return dokkaebi_Response, self.rspFlag
+            except:
+                dokkaebi_Response = "The location you entered is not a service area."
+        # crd = geocoding("서울역")
+        # crd = geocoding("동대구역")
+        # crd = geocoding("영남대")
+        return dokkaebi_Response, self.rspFlag
+
+    def endingMent(self):
+        if self.lang == "Ko":
+            #print("감사합니다. 도깨비박스가 물건을 잘 보관할게요.")
+            #print("마음이 모이면 서울이 됩니다. Seoul, my soul")
+            return "감사합니다. 도깨비박스가 물건을 잘 보관할게요.\n마음이 모이면 서울이 됩니다. Seoul, my soul"
+        else:
+            #print("Dokkaebi Box will keep the goods safe. Thank you")
+            #print("Seoul, my soul")
+            return "Dokkaebi Box will keep the goods safe. Thank you\nSeoul, my soul"
     def runChatBot(self):
         print("Seoul, my soul. 안녕하세요? 한강 도깨비 박스입니다.(Hello, I am the Dokkaebi Box)")
         while True:
