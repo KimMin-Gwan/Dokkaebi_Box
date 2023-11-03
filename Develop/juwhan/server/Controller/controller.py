@@ -5,7 +5,7 @@ from Controller.constant import *
 from Controller.UDP_Con import *
 class Web_Controller():
     def __init__(self, model):
-        self.model = model
+        self.model = model 
         self.chat_bot_find= None   #chat 봇 클래스  find 챗봇 클래스이다. 
         self.chat_bot_hand_over=None   #chat 봇 클래스 hand_over 챗봇 클래스이다.
         self.find_data_find=Dokkaebi_Data()  #chat bot을 통해 찾은 data class

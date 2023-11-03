@@ -1,7 +1,7 @@
 """
 * Project : 2023 Seoul AIOT Hackathon
 * Program Purpose and Features :
-* - class dokkaebi_RuleBasedChatBot_Handover
+* - class dokkaebi_RuleBasedChatBot_Find
 * Author : JH KIM
 * First Write Date : 2023.11.03
 * ==========================================================================
@@ -10,20 +10,21 @@
 * Author    		Date		    Version		History
 * JH KIM            2023.11.03		v1.00		First Write
 """
-
 import pandas as pd
-from ChatBot import *
-from konlpy.tag import Hannanum
-import os
-
-class dokkaebi_ChatBot_Handover:
+from ChatBotData import *
+from konlpy.tag import Okt, Hannanum
+from geopy.geocoders import Nominatim
+class dokkaebi_ChatBot_Find:
     def __init__(self, data):
-        self.hannanum = Hannanum()
+        self.Okt = Okt()
+        self.Hannanum = Hannanum()
         self.dokkaebi_data = data
-        self.chatbot_data = pd.read_excel("C:\\Users\\maths\\Documents\\GitHub\\Dokkaebi_Box\\Develop\\juwhan\\서버\\ChatBot\\chatbot_data_handover.xlsx")
+        self.chatbot_data = pd.read_excel("chatbot_data_find.xlsx")
         self.chat_dic = {}
         self.initChatBot()
         self.step = 1
+        self.geopyFlag = 1   # 0 (정상 입력)/ 1(잘못된 입력)
+
 
     def initChatBot(self):
         # rule의 데이터를 split하여 list형태로 변환 후, index값과 함께 dictionary 형태로 저장
@@ -55,12 +56,14 @@ class dokkaebi_ChatBot_Handover:
                     dokkaebi_response_str = self.chatbot_data['response'][k]
                     self.step += 1
                 elif self.chatbot_data['type'][k] == "time":
-                    nlp_result = self.hannanum.nouns(request)
+                    nlp_result = self.Okt.morphs(request)
+                    if len(nlp_result) != 4:
+                        break
                     month = nlp_result[0][:nlp_result[0].rfind('월')]
                     day = nlp_result[1][:nlp_result[1].rfind('일')]
                     hour = nlp_result[2][:nlp_result[2].rfind('시')]
                     minute = hour = nlp_result[3][:nlp_result[3].rfind('분')]
-                    dokkaebi_response_str = month+"월 " +day+"일 " +hour +"시 "+minute+"분에 습득하셨군요"
+                    dokkaebi_response_str = month+"월 " +day+"일 " +hour +"시 "+minute+"분에 분실하셨군요"
                     if len(month) == 1:
                         month = "0" + month
                     if len(day) == 1:
@@ -73,42 +76,62 @@ class dokkaebi_ChatBot_Handover:
                     self.dokkaebi_data.lostTime = hour+minute
                     self.step+=1
                 return dokkaebi_response_str
-        return '무슨 말인지 모르겠어요'
+        return '무슨 말인지 이해하지 못했어요'
+    def geocoding(self, address):
+        geolocoder = Nominatim(user_agent='South Korea', timeout=None)
+        geo = geolocoder.geocode(address)
+        crd = {"lat": str(geo.latitude), "lng": str(geo.longitude)}
 
+        return crd
     def runChatBot(self):
         print("Seoul, my soul. 안녕하세요? 한강 도깨비 박스입니다.")
         while True:
             if self.step == 1:
-                print("어떤 물건을 맡기러 오셨나요?(스마트폰/지갑/기타)")
                 while True:
+                    print("어떤 물건을 찾으러 오셨나요?(스마트폰/지갑/기타)")
                     userResponse = input('입력 : ')
+                    self.dokkaebi_data.lostItem = userResponse
                     chatBotResponse = self.chat(userResponse)
-                    print('도깨비박스 :', chatBotResponse)
+                    print(chatBotResponse)
                     if self.step != 1:
                         break
             elif self.step == 2:
-                print("물건을 언제 습득하셨나요? ex) 11월 3일 13시 30분")
                 while True:
+                    print("물건을 언제 분실하셨나요? ex) 11월 3일 13시 30분")
                     userResponse = input('입력 : ')
                     chatBotResponse = self.chat(userResponse)
-                    print('도깨비박스 :', chatBotResponse)
+                    print(chatBotResponse)
                     if self.step != 2:
                         break
-            #elif self.step == 3:
-            #    print("물건을 어디에서 주우셨나요?")
-            #    while True:
-            #        userResponse = input('입력 : ')
-            #        chatBotResponse = self.chat(userResponse)
-            #        print('도깨비박스 : ', chatBotResponse)
-            #        if self.step != 3:
-            #            break
             elif self.step == 3:
-                print("감사합니다. 도깨비 박스가 물건을 잘 보관할게요.")
+                print("물건을 어디에서 잃어버리셨나요?")
+                while True:
+                    userResponse = input('입력 : ')
+                    nlpResult = self.Hannanum.nouns(userResponse)
+                    for rst in nlpResult:
+                        try:
+
+                            crd = self.geocoding(rst)
+                            self.geopyFlag = 0
+                            self.dokkaebi_data.lostplace = rst
+                            print('{}을 분실하신 곳은 {} 이군요.'.format(self.dokkaebi_data.lostItem,
+                                                               self.dokkaebi_data.lostplace))
+                            break
+                        except:
+                            continue
+                    if self.geopyFlag == 0:
+                        self.step += 1
+                        break
+                    print('무슨 말인지 이해하지 못했어요')
+                    if self.step != 3:
+                        break
+            elif self.step == 4:
+                print("도깨비 박스가 열렸습니다. 물건을 찾은 뒤 박스를 닫아주세요.")
                 print("마음이 모이면 서울이 됩니다. Seoul, my soul")
                 return self.dokkaebi_data
 
 
 if __name__ == "__main__":
     DokkaebiChatBot_Data = Dokkaebi_Data()
-    chatBot = dokkaebi_ChatBot_Handover(DokkaebiChatBot_Data)
+    chatBot = dokkaebi_ChatBot_Find(DokkaebiChatBot_Data)
     chatBot.runChatBot()
