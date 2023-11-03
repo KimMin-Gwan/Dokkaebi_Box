@@ -14,3 +14,5 @@ LOSTPLACE="lostplace"  #분실한 장소
 LOSTTIME="losttime"  #분실한 시간 
 PATH="path"  #이미지 저장 path 
 PWD="password"
+
+STATE="state"  #인계하는지 아니면 박스인지

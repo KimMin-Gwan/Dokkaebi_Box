@@ -23,7 +23,14 @@ class Main:
         @self.app.get('/find')
         async def return_data():
             result = self.web_controller.find()  #사진 path가 return된다. 
+            path_result=[]
+            for i in range(6):
+                if len(result[i])!=0:
+                    for j in range(len(result[i])):
+                        path_result.append(result[i][j]['path'])
+            print("result_now asdfasfasdfasf\n",path_result)
             return FileResponse(result,media_type="image/jpeg")  #file_Response를 통해서사진 출력
+
             #실제로는 result는 사진 데이터? 가 와야함 
         @self.app.get('/handover')
         async def hand_over():

@@ -8,7 +8,7 @@ from dokkaebi_Cam.dokkaebi_Cam_Constant import *
 
 class clsdokkaebi_Box_Cam:
     def __init__(self):
-        print("==========111111============")
+
         self.picam2 = Picamera2()
         self.picam2.preview_configuration.main.size = (480, 640)
         self.picam2.preview_configuration.main.format = "RGB888"

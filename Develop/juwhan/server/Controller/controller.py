@@ -29,8 +29,9 @@ class Web_Controller:
         self.find_data_find=self.chat_bot_find.runChatBot()
         find_manager=Find(self.find_data_find)
         final_data=find_manager.find_data_base() #최종 데이터 추후 작업은 이어서 예정
-        #시나리오 작성 예시 ...... 
-        return final_data[PATH]  #이미지가 저장되어있는 경로를 return한다.
+        #시나리오 작성 예시 ...... g
+
+        return final_data  #이미지가 저장되어있는 경로를 return한다.
     
 
 
@@ -51,6 +52,7 @@ class Hand_Over():
         self.qury_data[LAT]=self.hand_over_data.lat  #위도  
         self.qury_data[LNG]=self.hand_over_data.lng  #경도
         self.qury_data[PWD]=self.hashcode()  #비밀번호 
+        self.qury_data[STATE] = "보관"
         self.dbms.input_data(self.qury_data)
 
     def receive_data(self):   #여기서 udp통신을 통해서 라즈베리파이로 부터 사진 이미지를 받아온다.
@@ -87,37 +89,16 @@ class Find():  #Find 관련 함수 구현 예정
         
         #1 2 순위는 항상 입력되었다 생각하고 
         if self.data.classification !=None :  #분류 날짜
-            qury_data={CLASSIFICATION:self.data.classification,DATE:self.data.Date}
-
+            qury_data={CLASSIFICATION:self.data.classification}
             all_data=self.dbms.find_data(qury_data)   #data베이스에서 1 2 순위 싹다 뽑아오고
         #그다음 시간에 대해서 가장 작은 시간 범위를 찾는다.
-        dt_temp,day_list_temp=self.find_date(self.data.lostTime,all_data)
-        self.find_result=self.find_dist(self.data,day_list_temp,dt_temp)
-        for doc in self.find_result:
-            print(doc)
-            print("====================")
+        dt_temp,day_list_temp=self.find_date(self.data.Date,all_data)
+    
 
+        self.find_result=self.find_dist(self.data,day_list_temp,dt_temp)  #self.data는 찾아야할 데이터 day_list는 그냥 날짜 dt_temp는 결과 느낌?
+
+    
         return self.find_result  #최종적으로 잃어버린 날짜 + 카테고리 + 시간에 대해서 찾은뒤 return해준다. 
-    
-
-
-
-    def find_closet_time(self,target_data,list_data):
-
-        #target_data 는 사용자가입력한 시간데이터 1300 형식으로되어있을것
-        #list_data에는 데이터 베이스에서 그대로 읽어온 데이터 리스트 형식
-        #1315이면 13*60 + 15분으로 생각하고
-        closet_min=25*60 
-        target_min=int(target_data[0:2]) *60  +int(target_data[2:4])
-        closet_min_data=None 
-        for time in list_data:
-            new_min=int(time["time"][0:2]) * 60 +int(time["time"][2:4])
-            
-            if(abs(target_min-new_min)<closet_min):
-                closet_min=abs(target_min-new_min)
-                closet_min_data=time
-        return closet_min_data 
-    
 
     def find_date(self,target_date,data_list):
         month_list=[0,31,28,31,30,31,30,31,31,30,31,30,31]
@@ -128,31 +109,34 @@ class Find():  #Find 관련 함수 구현 예정
         day_start=1
         day_list.append(target_date)
         for i in range(1,6):  #총 6일을 갈껀데 만약에 달이넘어가면 그다음달로 검색해야하잖아
-            print(target_date[2:4],"   ",target_date[0:2])
             if(int(target_date[2:4])+i) >month_list[int(target_date[0:2])]:  #즉 일수가 현재 자기 달의 마지막 일보다 많아지면
-                day_list.append(str(int(target_date[0:2])+1)+str(day_start))
+                day_list.append(str(int(target_date[0:2])+1)+"0"+str(day_start))
                 day_start+=1
             else:
-                day_list.append(target_date[0:2]+str(int(target_date[2:4])+1))
-
+                if(len(str(int(target_date[2:4])+i))==1):
+                    day_list.append(target_date[0:2]+"0"+str(int(target_date[2:4])+i))
+                else:
+                    day_list.append(target_date[0:2]+str(int(target_date[2:4])+i))
         count_result_data=0 
+
         for day in day_list:
             for i in range(len(data_list)):
                 if data_list[i][DATE]==day:
                     result_date[count_result_data].append(data_list[i])
             count_result_data+=1
 
-        return data_list  ,day_list   #data_list 는 정렬된 데이터고 day_list는 추후 거리에 따라 정렬할때 
+        return result_date  ,day_list   #data_list 는 정렬된 데이터고 day_list는 추후 거리에 따라 정렬할때 
     
+
     def find_dist(self,target_place,day_list,data_list):
         for i in range(6):  #총 6일에 대한 데이터에 대해서 길이에 대해서 정렬할껀데
             if len(data_list[i]) !=0:
-                for z in range(len(data_list[i]-1)):
+                for z in range(len(data_list[i])-1):
                     min_idx=z
-                    for j in range(i+1,len(data_list[i])):
-                        if mpu.haversine_distance((float(data_list[j].lat),float(data_list[j].lng)),(float(target_place.lat),float(target_place.lng)))<mpu.haversine_distance((float(data_list[min_idx].lat),float(data_list[min_idx].lng)),(float(target_place.lat),float(target_place.lng))):
+                    for j in range(z+1,len(data_list[i])):
+                        if mpu.haversine_distance((float(data_list[i][j]["let"]),float(data_list[i][j]["lng"])),(float(target_place.lat),float(target_place.lng)))<mpu.haversine_distance((float(data_list[i][min_idx]["let"]),float(data_list[i][min_idx]["lng"])),(float(target_place.lat),float(target_place.lng))):
                             min_idx=j
-                data_list[i][z],data_list[i][min_idx] =data_list[i][min_idx],data_list[i][z]
+                    data_list[i][z],data_list[i][min_idx] =data_list[i][min_idx],data_list[i][z]
         
         return data_list
 

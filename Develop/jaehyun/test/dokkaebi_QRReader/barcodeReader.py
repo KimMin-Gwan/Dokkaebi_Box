@@ -18,10 +18,11 @@ import datetime
 import imutils
 import time
 import cv2
-
+from dokkaebi_Database import *
 
 class dokkaebi_BarcodeReader:
     def __init__(self, dokkaebi_Servo):
+        self.db=DataBase()   #data base이다.
         self.dokkaebi_Servo = dokkaebi_Servo
         # construct the argument parser and parse the arguments
         self.ap = argparse.ArgumentParser()

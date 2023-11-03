@@ -17,7 +17,6 @@ from ChatBot.ChatBotData import *
 from konlpy.tag import Okt, Hannanum
 from geopy.geocoders import Nominatim
 from ChatBot.Constant import *
-
 import re
 
 class dokkaebi_ChatBot_Find:
@@ -25,7 +24,7 @@ class dokkaebi_ChatBot_Find:
         self.Okt = Okt()
         self.Hannanum = Hannanum()
         self.dokkaebi_data = data
-        self.chatbot_data = pd.read_excel("C:\\Users\\maths\\Documents\\GitHub\\Dokkaebi_Box\\Develop\\juwhan\\server\\ChatBot\\chatbot_data_find.xlsx")
+        self.chatbot_data = pd.read_excel("C:\\Users\\maths\\Documents\\GitHub\\Dokkaebi_Box\Develop\\juwhan\\server\\ChatBot\\chatbot_data_find.xlsx")
         self.chat_dic = {}
         self.initChatBot()
         self.step = 1
@@ -135,8 +134,7 @@ class dokkaebi_ChatBot_Find:
                 print("물건을 어디에서 잃어버리셨나요?"if self.lang == "Ko" else "Where did you lost it?")
                 while True:
                     dokkaebi_Response = '무슨말인지 잘 모르겠어요'if self.lang == "Ko" else "Sorry, I can't understand"
-                    userResponse = input('입력(Input) : ')
-                    userResponse = userResponse[:userResponse.rfind('분') + 1]
+                    userResponse = input('입력(Input) : ').replace('이요',"")
                     if self.lang == "Ko":
                         nlpResult = self.Hannanum.nouns(userResponse)
                         for rst in nlpResult:
