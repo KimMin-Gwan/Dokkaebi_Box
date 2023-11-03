@@ -1,0 +1,35 @@
+/* App.css */
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.centered-box {
+  text-align: center;
+}
+
+.title {
+  font-size: 24px;
+}
+
+.subtitle {
+  font-size: 12px;
+}
+
+
+.rounded-button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.rounded-button:hover {
+  background-color: #0056b3;
+}
