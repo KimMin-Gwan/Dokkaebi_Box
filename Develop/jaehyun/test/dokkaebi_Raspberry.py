@@ -1,9 +1,9 @@
 import time
 
-from test.dokkaebi_Cam import *
-from test.dokkaebi_QRReader import *
-from test.dokkaebi_MagneticSensor import *
-from test.dokkaebi_Servo import *
+from dokkaebi_Cam import *
+from dokkaebi_QRReader import *
+from dokkaebi_MagneticSensor import *
+from dokkaebi_Servo import *
 
 class dokkaebi_Raspberry:
     def __init__(self):
