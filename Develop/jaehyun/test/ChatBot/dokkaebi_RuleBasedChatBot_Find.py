@@ -12,16 +12,19 @@
 """
 import pandas as pd
 from ChatBotData import *
-from konlpy.tag import Okt
+from konlpy.tag import Okt, Hannanum
 
 class dokkaebi_ChatBot_Find:
     def __init__(self, data):
         self.Okt = Okt()
+        self.Hannanum = Hannanum()
         self.dokkaebi_data = data
-        self.chatbot_data = pd.read_excel("C:\\Users\\antl\\Documents\\GitHub\\Dokkaebi_Box\\Develop\\jaehyun\\test\\ChatBot\\chatbot_data_find.xlsx")
+        self.chatbot_data = pd.read_excel("chatbot_data_find.xlsx")
         self.chat_dic = {}
         self.initChatBot()
         self.step = 1
+        self.geopyFlag = 1   # 0 (정상 입력)/ 1(잘못된 입력)
+
 
     def initChatBot(self):
         # rule의 데이터를 split하여 list형태로 변환 후, index값과 함께 dictionary 형태로 저장
@@ -83,7 +86,7 @@ class dokkaebi_ChatBot_Find:
                     print("어떤 물건을 찾으러 오셨나요?(스마트폰/지갑/기타)")
                     userResponse = input('입력 : ')
                     chatBotResponse = self.chat(userResponse)
-                    print('도깨비박스 :', chatBotResponse)
+                    print(chatBotResponse)
                     if self.step != 1:
                         break
             elif self.step == 2:
@@ -91,15 +94,30 @@ class dokkaebi_ChatBot_Find:
                     print("물건을 언제 분실하셨나요? ex) 11월 3일 13시 30분")
                     userResponse = input('입력 : ')
                     chatBotResponse = self.chat(userResponse)
-                    print('도깨비박스 :', chatBotResponse)
+                    print(chatBotResponse)
                     if self.step != 2:
                         break
-            #elif self.step == 3:
-            #    print("물건을 어디에서 잃어버리셨나요?")
-            #    while True:
-            #        userResponse = input('입력 : ')
-            #        chatBotResponse = self.chat(userResponse)
-            #        print('도깨비박스 : ', chatBotResponse)
+            elif self.step == 3:
+                print("물건을 어디에서 잃어버리셨나요?")
+                while True:
+                    userResponse = input('입력 : ')
+                    nlpResult = self.Hannanum.nouns(userResponse)
+                    for rst in nlpResult:
+                        try:
+                            crd = self.geocoding(rst)
+                            self.geopyFlag = 0
+                            self.dokkaebi_data.lostplace = rst
+                            print('{}을 습득하신 곳은 {} 이군요.'.format(self.dokkaebi_data.classification,
+                                                               self.dokkaebi_data.lostplace))
+                            break
+                        except:
+                            continue
+                    if self.geopyFlag == 0:
+                        self.step += 1
+                        break
+                    print('무슨말인지 잘 모르겠어요')
+                    if self.step != 3:
+                        break
             elif self.step == 3:
                 print("도깨비 박스가 열렸습니다. 물건을 찾은 뒤 박스를 닫아주세요.")
                 print("마음이 모이면 서울이 됩니다. Seoul, my soul")

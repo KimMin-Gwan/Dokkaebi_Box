@@ -101,7 +101,7 @@ class dokkaebi_ChatBot_Handover:
                         break
             elif self.step == 2:
                 while True:
-                    print("도깨비 박스 : 물건을 언제 습득하셨나요? ex) 11월 3일 13시 30분")
+                    print("도깨비박스 : 물건을 언제 습득하셨나요? ex) 11월 3일 13시 30분")
                     userResponse = input('입력 : ')
                     chatBotResponse = self.chat(userResponse)
                     print('도깨비박스 :', chatBotResponse)
@@ -115,21 +115,20 @@ class dokkaebi_ChatBot_Handover:
                     for rst in nlpResult:
                         try:
                             crd = self.geocoding(rst)
-                            self.flag = 0
+                            self.geopyFlag = 0
                             self.dokkaebi_data.lostplace = rst
-                            print('{}을 습득하신 곳은 {} 이군요.'.format(self.dokkaebi_data.classification, self.dokkaebi_data.lostplace))
+                            print('도깨비박스 : {}을 습득하신 곳은 {} 이군요.'.format(self.dokkaebi_data.classification, self.dokkaebi_data.lostplace))
                             break
                         except:
                             continue
-                    if self.flag == 0:
+                    if self.geopyFlag == 0:
                         self.step += 1
                         break
                     # crd = geocoding("서울역")
                     # crd = geocoding("동대구역")
                     # crd = geocoding("영남대")
 
-                    chatBotResponse = self.chat(userResponse)
-                    print('도깨비박스 : ', chatBotResponse)
+                    print('도깨비박스 : 무슨말인지 잘 모르겠어요')
                     if self.step != 3:
                         break
             elif self.step == 4:
