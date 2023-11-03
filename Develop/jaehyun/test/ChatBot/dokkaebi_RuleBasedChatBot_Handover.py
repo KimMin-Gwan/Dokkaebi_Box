@@ -95,6 +95,7 @@ class dokkaebi_ChatBot_Handover:
                 while True:
                     print("도깨비 박스 : 어떤 물건을 맡기러 오셨나요?(스마트폰/지갑/기타)")
                     userResponse = input('입력 : ')
+                    self.dokkaebi_data.lostItem = userResponse
                     chatBotResponse = self.chat(userResponse)
                     print('도깨비박스 :', chatBotResponse)
                     if self.step != 1:
@@ -117,7 +118,7 @@ class dokkaebi_ChatBot_Handover:
                             crd = self.geocoding(rst)
                             self.geopyFlag = 0
                             self.dokkaebi_data.lostplace = rst
-                            print('도깨비박스 : {}을 습득하신 곳은 {} 이군요.'.format(self.dokkaebi_data.classification, self.dokkaebi_data.lostplace))
+                            print('도깨비박스 : {}을 습득하신 곳은 {} 이군요.'.format(self.dokkaebi_data.lostItem, self.dokkaebi_data.lostplace))
                             break
                         except:
                             continue

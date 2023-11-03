@@ -13,7 +13,7 @@
 import pandas as pd
 from ChatBotData import *
 from konlpy.tag import Okt, Hannanum
-
+from geopy.geocoders import Nominatim
 class dokkaebi_ChatBot_Find:
     def __init__(self, data):
         self.Okt = Okt()
@@ -77,7 +77,12 @@ class dokkaebi_ChatBot_Find:
                     self.step+=1
                 return dokkaebi_response_str
         return '무슨 말인지 이해하지 못했어요'
+    def geocoding(self, address):
+        geolocoder = Nominatim(user_agent='South Korea', timeout=None)
+        geo = geolocoder.geocode(address)
+        crd = {"lat": str(geo.latitude), "lng": str(geo.longitude)}
 
+        return crd
     def runChatBot(self):
         print("Seoul, my soul. 안녕하세요? 한강 도깨비 박스입니다.")
         while True:
@@ -85,6 +90,7 @@ class dokkaebi_ChatBot_Find:
                 while True:
                     print("어떤 물건을 찾으러 오셨나요?(스마트폰/지갑/기타)")
                     userResponse = input('입력 : ')
+                    self.dokkaebi_data.lostItem = userResponse
                     chatBotResponse = self.chat(userResponse)
                     print(chatBotResponse)
                     if self.step != 1:
@@ -104,10 +110,11 @@ class dokkaebi_ChatBot_Find:
                     nlpResult = self.Hannanum.nouns(userResponse)
                     for rst in nlpResult:
                         try:
+
                             crd = self.geocoding(rst)
                             self.geopyFlag = 0
                             self.dokkaebi_data.lostplace = rst
-                            print('{}을 습득하신 곳은 {} 이군요.'.format(self.dokkaebi_data.classification,
+                            print('{}을 분실하신 곳은 {} 이군요.'.format(self.dokkaebi_data.lostItem,
                                                                self.dokkaebi_data.lostplace))
                             break
                         except:
@@ -115,10 +122,10 @@ class dokkaebi_ChatBot_Find:
                     if self.geopyFlag == 0:
                         self.step += 1
                         break
-                    print('무슨말인지 잘 모르겠어요')
+                    print('무슨 말인지 이해하지 못했어요')
                     if self.step != 3:
                         break
-            elif self.step == 3:
+            elif self.step == 4:
                 print("도깨비 박스가 열렸습니다. 물건을 찾은 뒤 박스를 닫아주세요.")
                 print("마음이 모이면 서울이 됩니다. Seoul, my soul")
                 return self.dokkaebi_data
