@@ -41,7 +41,7 @@ class clsdokkaebi_Box_Cam:
             time.sleep(0.05)
             send_bytes += now_send_bytes
             left_bytes -= now_send_bytes
-            print(self.image_bytes[send_bytes:MAX_SEND_BYTES + send_bytes])
+            #print(self.image_bytes[send_bytes:MAX_SEND_BYTES + send_bytes])
         self.socket.sendto(END_FLAG, (UDP_IP, UDP_PORT))
 
     def run_Camera(self):
