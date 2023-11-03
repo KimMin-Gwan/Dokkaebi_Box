@@ -36,6 +36,7 @@ class dokkaebi_MagneticSensor:
 
     def runMagneticSensor(self):
         while True:
+            print(1)
             if GPIO.wait_for_edge(MAGNETIC_DEFAULT_PIN, GPIO.FALLING, bouncetime=200) == MAGNETIC_DEFAULT_PIN:
                 self.setMagnetic_close()
                 self.dokkaebi_Rasp_Cam.run_Camera()
