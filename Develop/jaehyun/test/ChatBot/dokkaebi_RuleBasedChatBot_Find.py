@@ -24,6 +24,7 @@ class dokkaebi_ChatBot_Find:
         self.initChatBot()
         self.step = 1
         self.geopyFlag = 1   # 0 (정상 입력)/ 1(잘못된 입력)
+        self.rspFlag = 1 # 챗봇이 정확하게 이해한 경우
 
 
     def initChatBot(self):
@@ -75,6 +76,7 @@ class dokkaebi_ChatBot_Find:
                     self.dokkaebi_data.Date = month+day
                     self.dokkaebi_data.lostTime = hour+minute
                     self.step+=1
+                self.rspFlag = 0
                 return dokkaebi_response_str
         return '무슨 말인지 이해하지 못했어요'
     def geocoding(self, address):
@@ -90,8 +92,13 @@ class dokkaebi_ChatBot_Find:
                 while True:
                     print("어떤 물건을 찾으러 오셨나요?(스마트폰/지갑/기타)")
                     userResponse = input('입력 : ')
-                    self.dokkaebi_data.lostItem = userResponse
-                    chatBotResponse = self.chat(userResponse)
+                    userResponse = self.Okt.morphs(userResponse)
+                    for rsp in userResponse:
+                        chatBotResponse = self.chat(rsp)
+                        if self.rspFlag == 0:
+                            self.dokkaebi_data.lostItem = rsp
+                            print(rsp)
+                            break
                     print(chatBotResponse)
                     if self.step != 1:
                         break
