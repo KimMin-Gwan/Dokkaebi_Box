@@ -15,7 +15,7 @@
  - 소속 : 영남대학교 정보통신공학 (프로젝트가 끝나면 지워집니다.)
 
 ## 상세
- - 언어 : Python
+ - 언어 : Python, React
  - 핵심 라이브러리 : tensorflow, numpy, cv2, pandas
  - 플랫폼 : Rasbian(Linux), FastAPI
  - 사용 제품 : Raspberry Pi 4 4GB, Pi_Camera_v3
