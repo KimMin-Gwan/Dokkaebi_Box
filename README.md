@@ -23,5 +23,7 @@
  - 문제 발생 및 해결 시 Issue에 개시
  - 개발 문의 : alsrhks2508@yu.ac.kr
 
-## 개발 다이어그램
+## 결과
+<img width="1440" height="1440" alt="KakaoTalk_20261015_124316953" src="https://github.com/user-attachments/assets/401528f0-df92-4916-a137-bb6bbef3a55d" />
+
 
